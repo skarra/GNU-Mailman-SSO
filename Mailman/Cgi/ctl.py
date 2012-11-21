@@ -10,7 +10,9 @@ does not chnage mailman behaviour in any way.
 
 # No lock needed in this script, because we don't change data.
 
+from   datetime import datetime
 import os
+import re
 
 from Mailman import mm_cfg
 from Mailman import Utils
@@ -27,30 +29,47 @@ _ = i18n._
 i18n.set_language(mm_cfg.DEFAULT_SERVER_LANGUAGE)
 
 
+def auto_version (resource):
+    """Intended to be invoked from inside tornado templates, given a resource
+    names such as /static/ctl.js this will return something like
+    /static/ctl.201211010141551..css to version it. For this to work we need a
+    working url rewrite rule in apache or equivalent to strip out the
+    timestamp.
+
+    It is assumed that static resources that need to be versioned are
+    available at the first level inside the PREFIX Directory"""
+
+    absname   = os.path.abspath(os.path.join(mm_cfg.VAR_PREFIX, resource[1:]))
+    d         = datetime.fromtimestamp(os.path.getmtime(absname))
+    timestamp = d.strftime("%Y%m%d%H%M%S")
+
+    res = re.match('(.*\.)([a-zA-Z]*$)', resource)
+    return ''.join([res.group(1), timestamp, '.', res.group(2)])
+
 
 def ctl_home ():
     loader = template.Loader("../templates/en")
     print 'Content-Type: text/html; charset=%s\n' % 'us-ascii'
     print
-    print loader.load("ctl-base.html").generate()
+    print loader.load("ctl-base.html").generate(auto_version=auto_version)
 
 def ctl_view ():
     loader = template.Loader("../templates/en")
     print 'Content-Type: text/html; charset=%s\n' % 'us-ascii'
     print
-    print loader.load("ctl-view.html").generate()
+    print loader.load("ctl-view.html").generate(auto_version=auto_version)
 
 def ctl_create ():
     loader = template.Loader("../templates/en")
     print 'Content-Type: text/html; charset=%s\n' % 'us-ascii'
     print
-    print loader.load("ctl-create.html").generate()
+    print loader.load("ctl-create.html").generate(auto_version=auto_version)
 
 def ctl_admin ():
     loader = template.Loader("../templates/en")
     print 'Content-Type: text/html; charset=%s\n' % 'us-ascii'
     print
-    print loader.load("ctl-admin.html").generate()
+    print loader.load("ctl-admin.html").generate(auto_version=auto_version)
 
 def main ():
     parts = Utils.GetPathPieces()
