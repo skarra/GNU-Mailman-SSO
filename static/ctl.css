@@ -23,6 +23,24 @@ canvas, footer, #header, hgroup, menu, section, summary, time, audio, video {
     padding: 5px;
 }
 
+body {
+    font-size: 13px;
+    line-height: 160%;
+}
+
+h1 {
+    margin-top: 20px;
+    font-size: 26px;
+    color: #666;
+}
+
+h2 {
+    margin-top: 20px;
+    font-size: 20px;
+    color: #666;
+}
+
+
 .navElem a {
     text-decoration: none;
     margin-top: 0.5em; 
