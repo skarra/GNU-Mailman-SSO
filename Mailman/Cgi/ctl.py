@@ -74,7 +74,8 @@ def ctl_view ():
                       'real_name'   : mlist.real_name,
                       'description' : Utils.websafe(mlist.description),
                       'subscribed'  : subscribed,
-                      'owner'       : mlist.GetOwnerEmail(),
+                      'owners'      : ', '.join(mlist.owner),
+                      'owner-email' : mlist.GetOwnerEmail(),
                       })
 
     print loader.load("ctl-view.html").generate(auto_version=auto_version,

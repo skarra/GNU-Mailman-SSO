@@ -24,7 +24,9 @@
 	<td> {{ list['real_name'] }} </td>
 	<td> {{ list['description'] }} </td>
 	<td> {{ list['subscribed'] }} </td>
-	<td> {{ list['owner'] }} </td>
+	<td> 
+	  <a href="mailto: {{ list['owner-email'] }} "> {{ list['owners'] }} </a> 
+	</td>
       </tr>
     {% end %}
   </tbody>
