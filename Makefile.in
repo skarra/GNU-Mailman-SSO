@@ -48,14 +48,14 @@ VAR_DIRS= \
 ARCH_INDEP_DIRS= \
 	bin templates scripts cron pythonlib \
 	Mailman Mailman/Cgi Mailman/Logging Mailman/Archiver \
-	Mailman/Handlers Mailman/Queue Mailman/Bouncers	 \
+	Mailman/Handlers Mailman/Queue Mailman/Bouncers	 Mailman/tornado \
 	Mailman/MTA Mailman/Gui Mailman/Commands messages icons \
-	tests tests/bounces tests/msgs
+	tests tests/bounces tests/msgs static
 
 ARCH_DEP_DIRS=	cgi-bin mail
 
 # Directories make should decend into
-SUBDIRS=	bin cron misc Mailman scripts src templates messages tests
+SUBDIRS=	bin cron misc Mailman scripts src templates messages tests static
 
 
 # Modes for directories and executables created by the install

@@ -10,6 +10,8 @@ Mailman/MTA/Makefile
 Mailman/Makefile
 Mailman/Queue/Makefile
 Mailman/mm_cfg.py.dist
+Mailman/tornado/Makefile
+static/Makefile
 Makefile
 bin/Makefile
 build/
@@ -65,6 +67,7 @@ src/admindb
 src/common.o
 src/confirm
 src/create
+src/ctl
 src/edithtml
 src/listinfo
 src/mailman
@@ -78,3 +81,4 @@ templates/Makefile
 tests/Makefile
 tests/bounces/Makefile
 tests/msgs/Makefile
+autom4te.cache/

@@ -20,8 +20,6 @@
 
 # Variables set by configure
 
-VERSION=	@VERSION@
-
 VPATH=		@srcdir@
 srcdir= 	@srcdir@
 bindir= 	@bindir@
@@ -39,11 +37,10 @@ DEFS=   	@DEFS@
 
 OPT=		@OPT@
 CFLAGS=		$(OPT) $(DEFS)
-PACKAGEDIR= 	$(prefix)/Mailman
+PACKAGEDIR= 	$(prefix)/Mailman/tornado
 SHELL=		/bin/sh
 
-MODULES=	$(srcdir)/*.py
-SUBDIRS=	Cgi Logging Archiver Handlers Bouncers Queue MTA Gui Commands tornado
+MODULES=	*.py
 
 # Modes for directories and executables created by the install
 # process.  Default to group-writable directories but
@@ -57,44 +54,17 @@ INSTALL_PROGRAM=$(INSTALL) -m $(EXEMODE)
 # Rules
 
 all:
-	for d in $(SUBDIRS); \
-	do \
-	    (cd $$d; $(MAKE)); \
-	done
 
-install-here: 
+install: 
 	for f in $(MODULES); \
 	do \
-	    $(INSTALL) -m $(FILEMODE) $$f $(DESTDIR)$(PACKAGEDIR); \
-	done
-	$(INSTALL) -m $(FILEMODE) mm_cfg.py.dist $(DESTDIR)$(PACKAGEDIR)
-	if [ ! -f $(DESTDIR)$(PACKAGEDIR)/mm_cfg.py ]; \
-	then \
-	    $(INSTALL) -m $(FILEMODE) mm_cfg.py.dist $(DESTDIR)$(PACKAGEDIR)/mm_cfg.py; \
-	fi
-
-install: install-here
-	for d in $(SUBDIRS); \
-	do \
-	    (cd $$d; $(MAKE) DESTDIR=$(DESTDIR) install); \
+	    $(INSTALL) -m $(FILEMODE) $(srcdir)/$$f $(DESTDIR)$(PACKAGEDIR); \
 	done
 
 finish:
-	@for d in $(SUBDIRS); \
-	do \
-	    (cd $$d; $(MAKE) DESTDIR=$(DESTDIR) finish); \
-	done
 
 clean:
-	for d in $(SUBDIRS); \
-	do \
-	    (cd $$d; $(MAKE) clean); \
-	done
 
 distclean:
-	-rm Makefile Defaults.py mm_cfg.py.dist
 	-rm *.pyc
-	for d in $(SUBDIRS); \
-	do \
-	    (cd $$d; $(MAKE) distclean); \
-	done
+	-rm Makefile

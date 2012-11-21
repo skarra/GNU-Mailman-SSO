@@ -73,7 +73,7 @@ DIRSETGID=	chmod g+s
 # Fixed definitions
 
 CGI_PROGS= admindb admin confirm create edithtml listinfo options \
-	private rmlist roster subscribe
+	private rmlist roster subscribe ctl
 
 COMMONOBJS= common.o vsnprintf.o
 

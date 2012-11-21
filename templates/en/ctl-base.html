@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<!--
+// Created       : Tue Nov 20 13:23:58 IST 2012
+// Last Modified : Wed Nov 21 11:50:06 IST 2012
+//
+// Copyright (C) 2012, Sriram Karra <karra.etc@gmail.com>
+// All Rights Reserved
+//
+// Licensed under the GNU AGPL v3
+// 
+-->
+
+<html>
+  <head>
+    <title>Cleartrip Internal List Server</title>
+
+    <link href="/static/ctl.css" rel="stylesheet" type="text/css" />
+
+    {% block styles %}
+    <!-- Any additional style sheets -->
+    {% end block %}
+
+    <script src="/static/jquery-1.7.2.min.js"> </script>
+    <script src="/static/jquery.dataTables-1.9.1.min.js"> </script>
+    <script src="/static/jquery-ui-1.8.21.custom.min.js"></script>
+    <script src="/static/ctl.js"> </script>
+
+    {% block scripts %}
+    <!-- Any additional js libraries / scripts here -->
+    {% end block %}
+
+  </head>
+
+  <body>
+    <div id="header">
+      <a href="http://www.cleartrip.com" title="Cleartrip's home page">
+	<img src="/static/cleartrip_logo_medium.gif" 
+	     alt="Cleartrip: India's Favourite Flights and Hotels Booking Agency">
+      </a>
+    </div>
+
+    <div class="nav">
+      <span id="navHome" class="navElem">
+	<a href="/mailman/ctl/base"> Home </a>
+      </span>
+
+      <span id="navView" class="navElem">
+	<a href="/mailman/ctl/view"> View Lists </a>
+      </span>
+
+      <span id="navCreate" class="navElem">
+	<a href="/mailman/ctl/create"> Create Lists </a>
+      </span>
+
+      <span id="navAdmin" class="navElem">
+	<a href="/mailman/ctl/admin"> Admin </a>
+      </span>
+    </div>
+
+    <div id="section">
+
+      {% block section_content %}
+      {% end block %}
+
+      <div id="section_home">
+	<!-- This div will be shown only in the Home tab. In the other
+	     templates, this will be hidden by the javascript and their own
+	     content inserted in the template block above. -->
+
+	<h2>
+	  Welcome to <span style="font-family: monospace;">
+	    lists.cleartrip.com</span>
+	</h2>
+
+	<p>
+
+	  <span style="font-family: monospace;">lists.cleartrip.com</span>
+	  serves as the central site for email lists used by various 
+	  groups and projects in Cleartrip.
+
+	  Use the navigation bar above to access the various features of the
+	  list server. The functionality of each tab is explain in brief
+	  below. You will also find guidelines, and some do's and dont's with
+	  this basic but very functional collaboration resource.
+	</p>
+
+	<h2>Viewing Lists:</h2> <b>Managing your subscriptions</b>
+
+	<p>
+	  The "View Lists" tab shows all available email lists. You can find a
+	  brief description of each list's purpose in life, and you can
+	  decided whether to subscribe or not. The same interface also allows
+	  you to unsubscribe from any list you are already on. 
+
+	  Your official email address - the one you used to authenticate
+	  yourself when you came to the site - will be added to / removed from
+	  the list.
+
+	  This list server is designed to be an open and freely accessible
+	  resource.  In its current state all past messages are available in
+	  archives. Links to the archives are availblae next to the list
+	  desriptions in this tab. Feel feel to browse around.
+	</p>
+
+	<h2>Create Lists</h2>
+	<p>
+	  As mentioned earlier, this list server is designed to be an open and
+	  freely accessible resource. Creating lists is a part of this
+	  freedom. Creation is a simple process, you will be marked as the
+	  "owner" of lists you create. Being an owner does not really mean
+	  much at the moment, but at a future date we will expose
+	  functionality that will allow you to add/remove people to/from a
+	  list and such administrative tasks.
+	</p>
+
+	<h2>Admin</h2>
+	<p>
+	  This tab is for the admins of the list server. So let's not go into
+	  this one here.
+	</p>
+
+	<hr />
+
+	<h1> Happy Collaboration!! </h1>
+
+      </div>
+   </div>
+
+  </body> 
+</html>

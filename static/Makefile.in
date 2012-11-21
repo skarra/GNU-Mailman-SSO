@@ -1,0 +1,50 @@
+# Variables set by configure
+
+VPATH=		@srcdir@
+srcdir= 	@srcdir@
+bindir= 	@bindir@
+prefix=   	@prefix@
+exec_prefix=	@exec_prefix@
+DESTDIR=
+
+CC=		@CC@
+CHMOD=  	@CHMOD@
+INSTALL=	@INSTALL@
+TRUE=		@TRUE@
+
+DEFS=   	@DEFS@
+
+# Customizable but not set by configure
+
+OPT=		@OPT@
+CFLAGS=		$(OPT) $(DEFS)
+STATICDIR= 	$(prefix)/static
+
+SHELL=		/bin/sh
+
+# Modes for directories and executables created by the install
+# process.  Default to group-writable directories but
+# user-only-writable for executables.
+DIRMODE=	775
+EXEMODE=	755
+FILEMODE=	644
+INSTALL_PROGRAM=$(INSTALL) -m $(EXEMODE)
+
+stuff= $(srcdir)/*.css  $(srcdir)/*.js $(srcdir)/*.gif
+
+# Rules
+
+all:
+
+install:
+	for f in $(stuff); \
+	do \
+		$(INSTALL) -m $(FILEMODE) $$f $(DESTDIR)$(STATICDIR); \
+	done
+
+finish:
+
+clean:
+
+distclean:
+	-rm -f Makefile
