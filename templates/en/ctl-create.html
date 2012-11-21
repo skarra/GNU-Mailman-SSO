@@ -2,3 +2,43 @@
 
 {% block scripts %}
 {% end block %}
+
+{% block section_content %}
+
+<!-- lc_* is a short form for list_create* -->
+
+<form id="lc_form" method="POST">
+
+  <input name="lc_submit" class="control_label" type="submit" value="Create"/>
+  <br/>
+  
+  <div class="form_data">
+    <label>List Name<span class="reqd_field">*</span></label>
+    <input type="text" id="lc_name" name="lc_name"/>
+  </div> <!-- .form_data -->
+
+  <div class="form_data">
+    <label>List Description<span class="reqd_field">*</span></label>
+    <input type="text" id="lc_desc" name="lc_desc"/>
+  </div> <!-- .form_data -->
+
+  <div class="form_data">
+    <label>List Members:</label>
+    <div id="lc_members">
+      <input type="text" id="lc_member_1" name="lc_member_1"
+	     placeholder="Enter a valid email address"/>
+    </div>
+  </div> <!-- .form_data -->
+
+  <label>
+    <a id="lc_member_add_new">Insert Another</a>
+  </label>
+
+  <p/>
+  <hr/>
+  
+  <input name="lc_submit" class="control_label" type="submit"  value="Create"/>
+
+</form>
+
+{% end block %}

@@ -1,6 +1,6 @@
 //
 // Created       : Tue Nov 20 14:02:01 IST 2012
-// Last Modified : Wed Nov 21 16:13:47 IST 2012
+// Last Modified : Wed Nov 21 20:34:11 IST 2012
 //
 // Copyright (C) 2012, Sriram Karra <karra.etc@gmail.com>
 // All Rights Reserved
@@ -28,7 +28,22 @@ function addHandlersView () {
 // ctl-create specific handlers
 //
 
+var member_cnt;
+
 function addHandlersCreate () {
+    var t0 = '<br/><input type="text" ';
+    var t1;
+    var t2 = ' placeholder="Enter a valid email address" />';
+    var d = 'lc_member_';
+
+    member_cnt = 2;
+
+    $("#lc_member_add_new").click(function() {
+	t1 = ' id="' + d + member_cnt + '" name="' + d + member_cnt + '"';
+	var t = t0 + t1 + t2
+	$("#lc_members").append(t);
+	member_cnt += 1;
+    });
 }
 
 //
