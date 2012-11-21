@@ -10,9 +10,11 @@ does not chnage mailman behaviour in any way.
 
 # No lock needed in this script, because we don't change data.
 
+import Cookie
 from   datetime import datetime
 import os
 import re
+import string
 
 from Mailman import mm_cfg
 from Mailman import Utils
@@ -51,31 +53,71 @@ def ctl_home ():
     loader = template.Loader("../templates/en")
     print 'Content-Type: text/html; charset=%s\n' % 'us-ascii'
     print
-    print loader.load("ctl-base.html").generate(auto_version=auto_version)
+    print loader.load("ctl-base.html").generate(auto_version=auto_version,
+                                                curr_user=curr_user())
 
 def ctl_view ():
     loader = template.Loader("../templates/en")
     print 'Content-Type: text/html; charset=%s\n' % 'us-ascii'
     print
-    print loader.load("ctl-view.html").generate(auto_version=auto_version)
+
+    listnames = Utils.list_names()
+    listnames.sort()
+
+    lists = []
+    for name in listnames:
+        mlist   = MailList.MailList(name, lock=0)
+        members = mlist.getRegularMemberKeys()
+        subscribed = True if curr_user() in members else False
+
+        lists.append({'script_url'  : mlist.GetScriptURL('listinfo'),
+                      'real_name'   : mlist.real_name,
+                      'description' : Utils.websafe(mlist.description),
+                      'subscribed'  : subscribed,
+                      'owner'       : mlist.GetOwnerEmail(),
+                      })
+
+    print loader.load("ctl-view.html").generate(auto_version=auto_version,
+                                                curr_user=curr_user(),
+                                                lists=lists)
 
 def ctl_create ():
     loader = template.Loader("../templates/en")
     print 'Content-Type: text/html; charset=%s\n' % 'us-ascii'
     print
-    print loader.load("ctl-create.html").generate(auto_version=auto_version)
+    print loader.load("ctl-create.html").generate(auto_version=auto_version,
+                                                  curr_user=curr_user())
 
 def ctl_admin ():
     loader = template.Loader("../templates/en")
     print 'Content-Type: text/html; charset=%s\n' % 'us-ascii'
     print
-    print loader.load("ctl-admin.html").generate(auto_version=auto_version)
+    print loader.load("ctl-admin.html").generate(auto_version=auto_version,
+                                                 curr_user=curr_user())
+
+_curr_user = None
+
+def curr_user (init=False):
+    global _curr_user
+
+    if not init and _curr_user:
+        return _curr_user
+
+    try:
+        cookie = Cookie.SimpleCookie(os.environ["HTTP_COOKIE"])
+        _curr_user = string.replace(cookie["userid"].value, '%40', '@')
+    except Cookie.CookieError, e:
+        _curr_user = "Take a hike, Mike - C"
+    except  KeyError, e:
+        _curr_user = "Take a hike, Mike - K"    
 
 def main ():
     parts = Utils.GetPathPieces()
     if not parts:
         ctl_home()
         return
+
+    curr_user(init=True)
 
     action = parts[0].lower()
     if action == 'view':

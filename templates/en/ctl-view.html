@@ -1,4 +1,33 @@
 {% extends 'ctl-base.html' %}
 
+{% block styles %}
+
+<link href="/static/demo_table.css" rel="stylesheet" type="text/css"/>
+
+{% end block %}
+
 {% block scripts %}
+
+<table id="view_lists_table" name="view_lists_table" class="display">
+  <thead>
+    <tr>
+      <th> List Name </th>
+      <th> Description </th>
+      <th> Subscribed </th>
+      <th> Owner </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for list in lists %}
+      <tr>
+	<td> {{ list['real_name'] }} </td>
+	<td> {{ list['description'] }} </td>
+	<td> {{ list['subscribed'] }} </td>
+	<td> {{ list['owner'] }} </td>
+      </tr>
+    {% end %}
+  </tbody>
+</div>
+
 {% end block %}

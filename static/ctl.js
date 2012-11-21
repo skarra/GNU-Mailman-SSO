@@ -1,11 +1,42 @@
 //
 // Created       : Tue Nov 20 14:02:01 IST 2012
-// Last Modified : Wed Nov 21 11:32:34 IST 2012
+// Last Modified : Wed Nov 21 16:13:47 IST 2012
 //
 // Copyright (C) 2012, Sriram Karra <karra.etc@gmail.com>
 // All Rights Reserved
 
 var navElemId;
+var view_lists_table;
+
+//
+// ctl-base specific handlers
+//
+
+function addHandlersBase () {
+}
+
+//
+// ctl-view specific handlers
+//
+
+function addHandlersView () {
+    view_lists_table = $("#view_lists_table").dataTable({
+    });
+}
+
+//
+// ctl-create specific handlers
+//
+
+function addHandlersCreate () {
+}
+
+//
+// ctl-admin specific handlers
+//
+
+function addHandlersAdmin () {
+}
 
 function highlightNavElem () {
     var url = window.location.pathname;
@@ -31,6 +62,15 @@ function highlightNavElem () {
 }
 
 function addHandlers () {
+    if (navElemId == "#navView") {
+	addHandlersView();
+    } else if (navElemId == "#navCreate") {
+	addHandlersCreate();
+    } else if (navElemId == "#navAdmin") {
+	addHandlersAdmin();
+    } else {
+	addHandlersBase();
+    }
 }
 
 function onLoad () {
