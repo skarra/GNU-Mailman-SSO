@@ -26,6 +26,7 @@ canvas, footer, #header, hgroup, menu, section, summary, time, audio, video {
 body {
     font-size: 13px;
     line-height: 160%;
+    background: #eeeeee url(/static/noise.png) repeat top left;
 }
 
 h1 {
