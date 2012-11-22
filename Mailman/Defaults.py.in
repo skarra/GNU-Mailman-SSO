@@ -1518,4 +1518,47 @@ add_language('vi',    _('Vietnamese'),          'utf-8',       'ltr')
 add_language('zh_CN', _('Chinese (China)'),     'utf-8',       'ltr')
 add_language('zh_TW', _('Chinese (Taiwan)'),    'utf-8',       'ltr')
 
+##
+## Defaults specific to the "Mailman SSO" project. These should
+## ideally be overridden in mm_cfg.py after installation.
+##
+
+## This is the cookie that the intranet Single Sign On sets that can be used
+## to authenticate the user. This is the only authentication the user will
+## have to perform that across Mailman
+SSO_USER_COOKIE = ''
+
+###
+### FIXME: All of these should ideally not be in a python source, but in a
+### database table - except for the master admin. BUt we'll go with this for
+### now.
+###
+
+## While we authenticate the users with the SSO token, Mailman still uses
+## passwords. These should be overridden to unique values in mm_cfg.py
+SSO_STOCK_ADMIN_PWD = ''
+SSO_STOCK_USER_PWD  = ''
+
+## A list of users who will be given access to the Admin link in the web
+## interface. A user is authenticated if the value of the SSO_USER_COOKIE
+## (above) matches one of the items in this list. This value should be
+## customized in mm_cfg.py
+SSO_ADMIN_AUTHIDS = []
+
+## A list of users who are authorized to create lists. A user is authenticated
+## if the value of the SSO_USER_COOKIE (above) matches one of the items in
+## this list. This value should be customized in mm_cfg.py.
+SSO_LIST_CREATE_AUTHIDS = []
+
+def sso_user_cookie_hook (val):
+    """This routine is called after the user authentication cookie is
+    read. You can override this in mm_cfg.py if you want to do any processing
+    of the cookie value.
+
+    The method should return a string which will be interpreted as the value
+    of the cookie."""
+
+    return val
+
+
 del _
