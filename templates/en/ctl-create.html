@@ -9,6 +9,12 @@
 
 <form id="lc_form" method="POST">
 
+  {% if action_taken %}
+    <div class="notice">
+     List <strong> {{ create_ln }} </strong> {{ create_status }}
+    </div>
+  {% end %}
+
   <input name="lc_submit" class="control_label" type="submit" value="Create"/>
   <br/>
   
@@ -20,6 +26,12 @@
   <div class="form_data">
     <label>List Description<span class="reqd_field">*</span></label>
     <input type="text" id="lc_desc" name="lc_desc"/>
+  </div> <!-- .form_data -->
+
+  <div class="form_data">
+    <label>List Information</label>
+    <textarea id="lc_info" name="lc_info">
+    </textarea>
   </div> <!-- .form_data -->
 
   <div class="form_data">
