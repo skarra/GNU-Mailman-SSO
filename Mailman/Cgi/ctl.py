@@ -149,7 +149,7 @@ class View(Action):
 class Create(Action):
     def __init__ (self):
         Action.__init__(self, "ctl-create.html")
-        self._ln = self.cgival('lc_name')
+        self._ln = self.cgival('lc_name').lower()
         self._safelin = Utils.websafe(self.ln)
         self._pw = mm_cfg.SSO_STOCK_ADMIN_PWD
         self._owner = self.curr_user
