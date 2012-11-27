@@ -30,7 +30,9 @@ EXEMODE=	755
 FILEMODE=	644
 INSTALL_PROGRAM=$(INSTALL) -m $(EXEMODE)
 
-stuff= $(srcdir)/*.css  $(srcdir)/*.js $(srcdir)/*.gif $(srcdir)/*.png
+images= $(srcdir)/*.gif $(srcdir)/*.png
+fonts=  $(srcdir)/*.eot $(srcdir)/*.ttf $(srcdir)/*.svg $(srcdir)/*.woff
+stuff=  $(srcdir)/*.css $(srcdir)/*.js  $(images) $(fonts)
 
 # Rules
 
