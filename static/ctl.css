@@ -2,8 +2,12 @@
     font-family: "Trebuchet MS", Trebuchet, Verdana, Arial;
 }
 
-div {
+div, table {
     display: block;
+}
+
+table td label {
+    text-align: "right";
 }
 
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, pre,
@@ -19,11 +23,10 @@ canvas, footer, #header, hgroup, menu, section, summary, time, audio, video {
 }
 
 #header {
-    margin: 5px;
-    padding: 5px;
 }
 
 body {
+    padding: 5px 45px;
     font-size: 13px;
     line-height: 160%;
     background: #eeeeee url(/static/noise.png) repeat top left;
@@ -40,13 +43,13 @@ label a:hover {
 }
 
 h1 {
-    margin-top: 20px;
+    margin-top: 10px;
     font-size: 26px;
     color: #666;
 }
 
 h2 {
-    margin-top: 20px;
+    margin-top: 10px;
     font-size: 20px;
     color: #666;
 }
@@ -80,8 +83,8 @@ h2 {
     border-top-color: #fc0;
     border-bottom-color: #fc0;
 
-    padding: 10px;
-    margin: 10px;
+    padding: 10px 20px;
+    margin: 20px 0px;
 }
 
 .navElem{
@@ -89,13 +92,16 @@ h2 {
     position: relative;
 }
 
-#sheet {
+#section {
     border-spacing: 0px;
     line-height: 1.5;
-    display: table-cell;
-    width: 100%;
+    display: block;
+    width: 96%;
+
+    padding: 10px 20px;
+
     *zoom: 1;
-    background: white;
+    background: #F9F9F9;
     font-size: 13px;
     border: 1px solid #afafaf;
     -moz-border-radius: 4px;
@@ -121,6 +127,8 @@ hr {
 .control_label {
     width: 8.1em;
     height: 40px;
+
+    margin: 10px;
 
     text-align: center;
     position: relative;
@@ -160,6 +168,11 @@ input[type="text"], input[type="email"] {
   border-radius: 3px;
   margin-bottom: 5px;
   positive: relative;
+}
+
+textarea {
+    width: 200px;
+    height: 100px;
 }
 
 textarea, input[type="text"], input[type="email"] {
@@ -205,3 +218,25 @@ input[type="submit"]:hover {
     background-image: linear-gradient(#d6d6d6, #c6c6c6);
 }
 
+@font-face {
+    font-family:'hands';src:url('/static/handsean.eot');
+    src:local('hands'), 
+        url('/static/handsean.ttf')  format('truetype'),
+        url('/static/handsean.woff') format('woff'),
+        url('/static/handsean.svg')  format('svg');
+    font-weight:normal;font-style:normal;
+}
+
+.handofsean {
+    font-family: "hands";
+    letter-spacing: 1px;
+}
+
+.ffr {
+    position: relative;
+    float: right;
+}
+
+.mono {
+    font-family: "monospace", "courier new";
+}

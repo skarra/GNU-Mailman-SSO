@@ -1,0 +1,23 @@
+{% extends 'ctl-base.html' %}
+
+{% block scripts %}
+
+<!-- We need to disable the main section ... for reasons too painful to go
+     into here -->
+<script>
+  $(function() {$("#section_home").css({display : "none"});});
+</script>
+{% end block %}
+
+{% block section_content %}
+
+<h2 style="color:red"> Ouch. Something's broken. Let the admins know the
+following has come to pass: </h2>
+
+<div class="mono">
+<pre>
+  {{ error }}
+</pre>
+</div>
+
+{% end block %}

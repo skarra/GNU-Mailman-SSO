@@ -1,6 +1,6 @@
 //
 // Created       : Tue Nov 20 14:02:01 IST 2012
-// Last Modified : Wed Nov 21 20:34:11 IST 2012
+// Last Modified : Tue Nov 27 19:03:43 IST 2012
 //
 // Copyright (C) 2012, Sriram Karra <karra.etc@gmail.com>
 // All Rights Reserved
@@ -53,6 +53,13 @@ function addHandlersCreate () {
 function addHandlersAdmin () {
 }
 
+//
+// ctl-error specific handlers
+//
+
+function addHandlersError () {
+}
+
 function highlightNavElem () {
     var url = window.location.pathname;
     var filename = url.replace(/^.*[\\\/]/, '');
@@ -68,6 +75,8 @@ function highlightNavElem () {
 	navElemId = "#navAdmin";
     } else if (filename == "base") {
 	navElemId = "#navHome";
+    } else if (filename == "error") {
+	navElemId = "#navError";
     } else {
 	console.log('highlightNavElem: Unknown web page: ' + url);
 	navElemId = "#navHome";
@@ -83,6 +92,8 @@ function addHandlers () {
 	addHandlersCreate();
     } else if (navElemId == "#navAdmin") {
 	addHandlersAdmin();
+    } else if (navElemId == "#navError") {
+	addHandlersError();
     } else {
 	addHandlersBase();
     }

@@ -115,6 +115,10 @@ class Action:
         self.render()
 
 
+class Error(Action):
+    def __init__ (self):
+        Action.__init__(self, "ctl-error.html")
+
 class Home(Action):
     def __init__ (self):
         Action.__init__(self, "ctl-base.html")
@@ -352,8 +356,7 @@ class Admin(Action):
     def __init__ (self):
         Action.__init__(self, "ctl-admin.html")
 
-
-def main ():
+def doit ():
     parts = Utils.GetPathPieces()
     if not parts:
         Home().handler()
@@ -369,6 +372,14 @@ def main ():
     else:
         ## FIXME: This should throw a 404.
         Home().handler()
+
+def main ():
+    try:
+        doit()
+    except:
+        err = Error()
+        err.kwargs_add('error', traceback.format_exc())
+        err.handler()        
 
 
 if __name__ == "__main__":
