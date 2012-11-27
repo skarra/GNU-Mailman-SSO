@@ -36,7 +36,6 @@
 }
 
 .dataTables_processing {
-//	position: absolute;
 	top: 50%;
 	left: 50%;
 	width: 250px;
@@ -58,10 +57,11 @@
 }
 
 .dataTables_filter {
-        font-size: 75%;
+    font-size: 75%;
+    float: right;
 }
 
-#sheet .dataTables_filter input[type="text"] {
+.dataTables_filter input[type="text"] {
     padding: 2px, 2px;
     font-family: "Trebuchet MS", Trebuchet, Verdana, Arial;
     font-size: 12px;
@@ -74,19 +74,24 @@ table.display tfoot th {
     padding-right: 9px;
 }
 
-#sheet .dataTables_filter label {
-    float: right;
+.dataTables_wrapper label {
+/*    float: right;*/
     margin-right: 15px;
+    font-weight: normal;
 }
 
 .dataTables_info {
-	width: 60%;
-	float: left;
+    font-size: 75%;
+    width: 60%;
+    float: left;
+    padding-top: 5px;
 }
 
 .dataTables_paginate {
-	float: right;
-	text-align: right;
+    font-size: 75%;
+    float: right;
+    text-align: right;
+    padding-top: 5px;
 }
 
 /* Pagination nested */

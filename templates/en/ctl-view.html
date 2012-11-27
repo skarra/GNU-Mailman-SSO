@@ -8,13 +8,19 @@
 
 {% block section_content %}
 
+
+<div class="col_parent">
+<div class="half">
+<h2 class="center">
+  Available Lists
+</h2>
+
 <table id="view_lists_table" name="view_lists_table" class="display">
   <thead>
     <tr>
       <th> List Name </th>
       <th> Description </th>
       <th> Subscribed </th>
-      <th> Owner </th>
     </tr>
   </thead>
 
@@ -24,12 +30,11 @@
 	<td> {{ list['real_name'] }} </td>
 	<td> {{ list['description'] }} </td>
 	<td> {{ list['subscribed'] }} </td>
-	<td> 
-	  <a href="mailto: {{ list['owner-email'] }} "> {{ list['owners'] }} </a> 
-	</td>
-      </tr>
+     </tr>
     {% end %}
   </tbody>
+</table>
+</div>
 </div>
 
 {% end block %}

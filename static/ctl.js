@@ -1,6 +1,6 @@
 //
 // Created       : Tue Nov 20 14:02:01 IST 2012
-// Last Modified : Tue Nov 27 19:03:43 IST 2012
+// Last Modified : Tue Nov 27 21:09:23 IST 2012
 //
 // Copyright (C) 2012, Sriram Karra <karra.etc@gmail.com>
 // All Rights Reserved
@@ -21,6 +21,10 @@ function addHandlersBase () {
 
 function addHandlersView () {
     view_lists_table = $("#view_lists_table").dataTable({
+	"aoColumns": [
+            { "sWidth": "30%", "sClass": "left" },
+            { "sWidth": "53%", "sClass": "left"},
+            { "sWidth": "17%", "sClass": "center"}],
     });
 }
 

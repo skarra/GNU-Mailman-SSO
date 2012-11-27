@@ -237,6 +237,30 @@ input[type="submit"]:hover {
     float: right;
 }
 
+.center {
+    text-align: center;
+}
+
 .mono {
     font-family: "monospace", "courier new";
+}
+
+.col_parent {
+    display: table;
+    width: 100%;
+    position: relative;
+}
+
+.third {
+    display: table-column;
+    position: relative;
+    float: left;
+    width: 32%;
+}
+
+.half {
+    display: table-column;
+    position: relative;
+    float: left;
+    width: 49%;
 }
