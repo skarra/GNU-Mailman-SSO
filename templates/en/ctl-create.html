@@ -16,40 +16,60 @@
   {% end %}
 
   <input name="lc_submit" class="control_label" type="submit" value="Create"/>
-  <br/>
-  
-  <div class="form_data">
-    <label>List Name<span class="reqd_field">*</span></label>
-    <input type="text" id="lc_name" name="lc_name"/>
-  </div> <!-- .form_data -->
-
-  <div class="form_data">
-    <label>List Description<span class="reqd_field">*</span></label>
-    <input type="text" id="lc_desc" name="lc_desc"/>
-  </div> <!-- .form_data -->
-
-  <div class="form_data">
-    <label>List Information</label>
-    <textarea id="lc_info" name="lc_info">
-    </textarea>
-  </div> <!-- .form_data -->
-
-  <div class="form_data">
-    <label>List Members:</label>
-    <div id="lc_members">
-      <input type="text" id="lc_member_1" name="lc_member_1"
-	     placeholder="Enter a valid email address"/>
-    </div>
-  </div> <!-- .form_data -->
-
-  <label>
-    <a id="lc_member_add_new">Insert Another</a>
-  </label>
 
   <p/>
   <hr/>
   
-  <input name="lc_submit" class="control_label" type="submit"  value="Create"/>
+  <table valign="top">
+    <tr>
+      <div class="form_data">
+	<td class="hralign vtalign"> <label>List Name<span class="reqd_field">*</span>
+	</label> </td>
+	<td> <input type="text" id="lc_name" name="lc_name"/> </td>
+      </div> <!-- .form_data -->
+      </tr>
+
+    <tr>
+      <div class="form_data">
+	<td class="hralign vtalign"> <label>List
+	    Description<span class="reqd_field">*</span>
+	</label> </td>
+	<td> <input type="text" id="lc_desc" name="lc_desc"/> </td>
+      </div> <!-- .form_data -->
+    </tr>
+
+    <tr>
+      <div class="form_data">
+	<td class="hralign vtalign"> <label>List Information</label> </td>
+	<td> <textarea id="lc_info" name="lc_info"> </textarea> </td>
+      </div> <!-- .form_data -->
+    </tr>
+
+    <tr>
+      <div class="form_data">
+	<td class="hralign vtalign"> <label>List Members:</label> </td>
+	<td>
+	  <div id="lc_members">
+	    <input type="text" id="lc_member_1" name="lc_member_1"
+		   placeholder="Enter a valid email address"/>
+
+	    <label>
+	      <a id="lc_member_add_new">Insert Another</a>
+	    </label>
+
+	  </div>
+	</td>
+      </div> <!-- .form_data -->
+    </tr>
+  </table>
+
+  <p/>
+  <hr/>
+  
+  <!--
+      <input name="lc_submit" class="control_label" type="submit"
+      value="Create"/>
+      -->
 
 </form>
 
