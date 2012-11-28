@@ -1,6 +1,6 @@
 //
 // Created       : Tue Nov 20 14:02:01 IST 2012
-// Last Modified : Wed Nov 28 16:38:13 IST 2012
+// Last Modified : Wed Nov 28 19:12:54 IST 2012
 //
 // Copyright (C) 2012, Sriram Karra <karra.etc@gmail.com>
 // All Rights Reserved
@@ -79,10 +79,61 @@ function addHandlersView () {
 
 var member_cnt;
 
+function isValidEmail (em) {
+    var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    
+    if (reg.test(em) == false) {
+        return false;
+    }
+
+    return true;
+}
+
+function validateNewListDetails () {
+    var msg = "";
+    var lc_name = $("#lc_name").val();
+    var lc_desc = $("#lc_desc").val();
+
+    try {
+	if (lc_name.trim() == "") {
+	    msg += "* List name cannnot be empty\n";
+	}
+
+	if (lc_desc.trim() == "") {
+	    msg += "* Brief description cannot be empty.\n";
+	}
+
+	var empty = true;
+	$(".lc_members").each(function(x, domEle) {
+	    if ($(domEle).val().trim() != "") {
+		var em = $(domEle).val().trim();
+		console.log('Processing email address: ' + em);
+		if (isValidEmail(em)) {
+		    empty = false;
+		}
+	    }
+	});
+
+	if (empty) {
+	    msg += "* At least one valid email address needs to be provided.\n"
+	}
+    } catch (e) {
+	alert(e);
+	return false;
+    }
+
+    if (msg != "") {
+	alert("Cannot create list due to following error(s): \n" + msg);
+	return false;
+    }
+
+    return true;
+}
+
 function addHandlersCreate () {
-    var t0 = '<br/><input type="text" ';
+    var t0 = '<br/><input type="text" class="lc_members"';
     var t1;
-    var t2 = ' placeholder="Enter a valid email address" />';
+    var t2 = ' placeholder="Enter a valid plain email address" />';
     var d = 'lc_member_';
 
     member_cnt = 2;
@@ -93,6 +144,8 @@ function addHandlersCreate () {
 	$("#lc_members").append(t);
 	member_cnt += 1;
     });
+
+    $("#lc_form").submit(validateNewListDetails);
 }
 
 //

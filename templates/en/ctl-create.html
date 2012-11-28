@@ -23,16 +23,17 @@
   <table valign="top">
     <tr>
       <div class="form_data">
-	<td class="hralign vtalign"> <label>List Name<span class="reqd_field">*</span>
+	<td class="right vtalign"> <label>List Name <span class="reqd_field">*</span>
 	</label> </td>
-	<td> <input type="text" id="lc_name" name="lc_name"/> </td>
+	<td> <input type="text" id="lc_name" name="lc_name"
+		    placeholder="No spaces or special characters."/> </td>
       </div> <!-- .form_data -->
       </tr>
 
     <tr>
       <div class="form_data">
-	<td class="hralign vtalign"> <label>List
-	    Description<span class="reqd_field">*</span>
+	<td class="right vtalign"> <label>Brief Description
+	    <span class="reqd_field">*</span>
 	</label> </td>
 	<td> <input type="text" id="lc_desc" name="lc_desc"/> </td>
       </div> <!-- .form_data -->
@@ -40,18 +41,18 @@
 
     <tr>
       <div class="form_data">
-	<td class="hralign vtalign"> <label>List Information</label> </td>
+	<td class="right vtalign"> <label>Detailed Description</label> </td>
 	<td> <textarea id="lc_info" name="lc_info"> </textarea> </td>
       </div> <!-- .form_data -->
     </tr>
 
     <tr>
       <div class="form_data">
-	<td class="hralign vtalign"> <label>List Members:</label> </td>
+	<td class="right vtalign"> <label>List Members</label> </td>
 	<td>
 	  <div id="lc_members">
 	    <input type="text" id="lc_member_1" name="lc_member_1"
-		   placeholder="Enter a valid email address"/>
+		   class="lc_members" value=" {{ curr_user }} "/>
 
 	    <label>
 	      <a id="lc_member_add_new">Insert Another</a>
