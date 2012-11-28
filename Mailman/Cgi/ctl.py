@@ -21,6 +21,8 @@ import string
 import sys
 import traceback
 
+from email.Utils import parseaddr
+
 from Mailman import mm_cfg
 from Mailman import Utils
 from Mailman import MailList
@@ -215,7 +217,7 @@ class Subscription(JSONAction):
         if action == 'subscribe':
             try:
                 text = ('Welcome to %s. Visit the List Server to ' +
-                        'manage your  subscriptions') % listname
+                        'manage your subscriptions') % listname
                 mlist.ApprovedAddMember(userdesc, True, text,
                                         whence='SSO Web Interface')
                 mlist.Save()
@@ -355,6 +357,31 @@ class Create(HTMLAction):
             text, self.ml.preferred_language)
         msg.send(self.ml)
 
+    def add_members (self):
+        """Add any email addressses that are provided in the create form."""
+
+        text = ('Welcome to %s. Visit the List Server to ' +
+                'manage your subscriptions') % self.ln
+
+        for key in self.cgidata.keys():
+            if re.match('^lc_member_', key):
+                fn, em = parseaddr(self.cgival(key).lower().strip())
+                userdesc = UserDesc(em, fn, mm_cfg.SSO_STOCK_USER_PWD, False)
+                try:
+                    self.ml.ApprovedAddMember(userdesc, True, text,
+                                              whence='SSO List Creation Time')
+                    syslog('sso',
+                           'Successfully added %s to list: %s' % (em,
+                                                                  self.ln))
+                except Errors.MMAlreadyAMember:
+                    ## FIXME: Need to find some way of communicating this
+                    ## case to the user. As thisi s a new list, this can only
+                    ## happen if the same address is given by the admin... hm
+                    syslog('sso',
+                           '%s already a member of listL %s' % (em, self.ln))
+
+        self.ml.Save()
+
     def request_create (self):
         """Creates a list (name taken from the CGI form value called lc_name).
 
@@ -409,6 +436,10 @@ class Create(HTMLAction):
             self.ml.info = self.info
             self.ml.description = self.desc
             self.ml.Save()
+
+            syslog('sso', 'Successfully created list: %s' % self.ln)
+
+            self.add_members()
         finally:
             # Now be sure to unlock the list.  It's okay if we get a signal
             # here because essentially, the signal handler will do the same
