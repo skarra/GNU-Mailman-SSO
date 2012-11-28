@@ -254,7 +254,8 @@ input[type="submit"]:hover {
 }
 
 .mono {
-    font-family: "courier";
+    font-family: monospace, courier;
+    font-weight: normal;
 }
 
 .col_parent {
