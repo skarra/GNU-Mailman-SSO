@@ -13,6 +13,7 @@ does not chnage mailman behaviour in any way.
 import cgi
 import Cookie
 from   datetime import datetime
+import json
 import os
 import re
 import signal
@@ -29,6 +30,7 @@ from Mailman import i18n
 from Mailman.htmlformat import *
 from Mailman.Logging.Syslog import syslog
 from Mailman.Utils import sha_new
+from Mailman.UserDesc import UserDesc
 
 from Mailman.tornado import template
 
@@ -72,7 +74,7 @@ def get_curr_user ():
     return _curr_user
 
 
-class Action:
+class Action(object):
     def __init__ (self, templ):
         self._cgidata   = cgi.FieldStorage()
         self._templ     = templ
@@ -81,6 +83,7 @@ class Action:
         self.kwargs     = {'auto_version' : auto_version,
                            'curr_user'    : self.curr_user,
                            }
+        self.more_headers = []
 
     @property
     def cgidata (self): 
@@ -104,29 +107,68 @@ class Action:
     def kwargs_add (self, key, val):
         self.kwargs.update({key : val})
 
+    def header_add (self, header):
+        self.more_headers.append(header)
+
+    def handler (self):
+        self.render()
+
+
+class HTMLAction(Action):
+    def __init__ (self, templ):
+        Action.__init__(self, templ)
+
     def render (self):
+        syslog('sso', 'HTMLAction.render()... template: %s' % self.templ)
         loader = template.Loader(self.templ_dir)
+        if self.more_headers:
+            for header in self.more_headers:
+                print header
         print 'Content-Type: text/html; charset=%s\n' % 'us-ascii'
         print
         print loader.load(self.templ).generate(**self.kwargs)
 
-    def handler (self):
-        """To be overridden, but we have a simple default, regardless"""
-        self.render()
 
+class JSONAction(Action):
+    def __init__ (self, templ=None):
+        Action.__init__(self, templ)             # There is no template, really.
+        del self.kwargs['auto_version']
 
-class Error(Action):
+    def render (self):
+        syslog('sso', 'JSONAction.render()...')
+        if self.more_headers:
+            syslog('sso', 'Headers: %s' % self.more_headers)
+            for header in self.more_headers:
+                if header != '':
+                    print header
+        print 'Content-Type: application/json; charset=us-ascii\n'
+        print
+        print json.dumps(self.kwargs)
+        
+
+class HTMLError(HTMLAction):
     def __init__ (self):
-        Action.__init__(self, "ctl-error.html")
+        HTMLAction.__init__(self, "ctl-error.html")
+        self.header_add("Status: 500 Internal Server Error")
 
-class Home(Action):
+
+class JSONError(JSONAction):
     def __init__ (self):
-        Action.__init__(self, "ctl-base.html")
+        JSONAction.__init__(self)
+        self.header_add("Status: 500 Internal Server Error")
 
 
-class View(Action):
+class JSONException(Exception): pass
+
+
+class Home(HTMLAction):
     def __init__ (self):
-        Action.__init__(self, "ctl-view.html")
+        HTMLAction.__init__(self, "ctl-base.html")
+
+
+class View(HTMLAction):
+    def __init__ (self):
+        HTMLAction.__init__(self, "ctl-view.html")
     
     def handler (self):
         listnames = Utils.list_names()
@@ -150,9 +192,59 @@ class View(Action):
         self.render()
 
 
-class Create(Action):
+class Subscription(JSONAction):
+    """This action will perform a subscribe or unsubscribe action and redirect
+       to the view action handler"""
+
     def __init__ (self):
-        Action.__init__(self, "ctl-create.html")
+        syslog('sso', 'Subscription:__init__()...')
+        JSONAction.__init__(self)
+
+    def handler (self):
+        syslog('sso', 'Let us get this out of the way...')
+        listname = self.cgidata.getvalue('list')
+        action   = self.cgidata.getvalue('action').lower().strip()
+
+        syslog('sso', 'User: %s; Listname: %s; action: %s' % (self.curr_user,
+                                                              listname, action))
+
+        mlist = MailList.MailList(listname)
+        userdesc = UserDesc(self.curr_user, u'', mm_cfg.SSO_STOCK_USER_PWD,
+                            False)
+
+        if action == 'subscribe':
+            try:
+                text = ('Welcome to %s. Visit the List Server to ' +
+                        'manage your  subscriptions') % listname
+                mlist.ApprovedAddMember(userdesc, True, text,
+                                        whence='SSO Web Interface')
+                mlist.Save()
+                self.kwargs_add('notice_success', True)
+                self.kwargs_add('notice_text',
+                                'Successfully added to list: %s' % listname)
+            except Errors.MMAlreadyAMember:
+                self.kwargs_add('notice_success', False)
+                self.kwargs_add('notice_text',
+                                'You are already subscribed to %s' % listname)
+        elif action == 'unsubscribe':
+            try:
+                mlist.ApprovedDeleteMember(self.curr_user)
+                mlist.Save()
+                self.kwargs_add('notice_success', True)
+                self.kwargs_add('notice_text',
+                                'Successfully removed from list: %s' % listname)
+            except Errors.NotAMemberError:
+                # User has already been unsubscribed
+                self.kwargs_add('notice_success', False)
+                self.kwargs_add('notice_text',
+                                'You are not a member of %s' % listname)
+
+        self.render()
+
+
+class Create(HTMLAction):
+    def __init__ (self):
+        HTMLAction.__init__(self, "ctl-create.html")
         self._ln = self.cgival('lc_name').lower()
         self._safelin = Utils.websafe(self.ln)
         self._pw = mm_cfg.SSO_STOCK_ADMIN_PWD
@@ -352,7 +444,7 @@ class Create(Action):
         self.render()
 
 
-class Admin(Action):
+class Admin(HTMLAction):
     def __init__ (self):
         Action.__init__(self, "ctl-admin.html")
 
@@ -362,13 +454,23 @@ def doit ():
         Home().handler()
         return
 
-    action = parts[0].lower()
+    action = parts[0].lower().strip()
+    syslog('sso', 'Getting things underway, here with: %s' % action)
+
     if action == 'view':
         View().handler()
     elif action == 'create':
         Create().handler()
     elif action == 'admin':
         Admin().handler()
+    elif action == 'subscribe':
+        syslog('sso', 'TG. We are really getting in here.')
+        try:
+            Subscription().handler()
+        except Exception, e:
+            ## FIXME: This is not the best approach. The overall exception
+            ## handling has become a mess... Hm.
+            raise JSONException(str(e))
     else:
         ## FIXME: This should throw a 404.
         Home().handler()
@@ -376,8 +478,12 @@ def doit ():
 def main ():
     try:
         doit()
+    except JSONException, e:
+        err = JSONError()
+        err.kwargs_add('error', str(e) + '\n' + traceback.format_exc())
+        err.handler()
     except:
-        err = Error()
+        err = HTMLError()
         err.kwargs_add('error', traceback.format_exc())
         err.handler()        
 

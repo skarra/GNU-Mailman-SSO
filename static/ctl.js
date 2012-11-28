@@ -1,6 +1,6 @@
 //
 // Created       : Tue Nov 20 14:02:01 IST 2012
-// Last Modified : Tue Nov 27 21:09:23 IST 2012
+// Last Modified : Wed Nov 28 16:38:13 IST 2012
 //
 // Copyright (C) 2012, Sriram Karra <karra.etc@gmail.com>
 // All Rights Reserved
@@ -19,12 +19,57 @@ function addHandlersBase () {
 // ctl-view specific handlers
 //
 
+function subscribeActions () {
+    var aPos  = view_lists_table.fnGetPosition(this);
+    var aData = view_lists_table.fnGetData(aPos[0]);
+    var list   = aData[0];
+    var action = aData[2].toLowerCase();
+
+    console.log('Will ' + action + ' from/to ' + list);
+
+    $.post("/mailman/ctl/subscribe",
+	   {'action' : action,
+	    'list'   : list},
+	   function(response) {
+	       console.log('Response: ' + response);
+	       var stat = response['notice_success'];
+	       var news;
+	       if (stat) {
+		   // We could just toggle the subscribed state, but
+		   // updaging contents from here is generating
+		   // additional click evenst. Quite a pain. Let's
+		   // just redirect for now, which will re-render the
+		   // page. FIXME: for better performance
+
+		   window.location = '/mailman/ctl/view';
+
+		   // if (action == 'subscribe') {
+		   //     news = 'Unsubscribe';
+		   // } else {
+		   //     news = 'Subscribe'
+		   // }
+		   // view_lists_table.fnUpdate(news, aPos[0], 2);
+	       }
+	       console.log('Text   : ' + response['notice_text']);
+	   }
+	  ).error(function(xhr, status, error) {
+	      console.log("Status: " + status + "; Error: " + error);
+	      var d = $.parseJSON(xhr.responseText);
+	      console.log('parsed data: ' + d['error']);
+	      $("#sub_result").html('<pre>' + d['error'] + '</pre>');
+	  });
+}
+
 function addHandlersView () {
     view_lists_table = $("#view_lists_table").dataTable({
 	"aoColumns": [
             { "sWidth": "30%", "sClass": "left" },
             { "sWidth": "53%", "sClass": "left"},
             { "sWidth": "17%", "sClass": "center"}],
+
+	"fnDrawCallback" : function(oSettings) {
+	    $("#view_lists_table tbody td.clickable").click(subscribeActions);
+	}
     });
 }
 

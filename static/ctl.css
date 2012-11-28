@@ -54,12 +54,19 @@ h2 {
     color: #666;
 }
 
+.clickable:hover {
+    color: blue;
+    cursor: pointer;
+    cursor: hand;
+}
+
 
 .navElem a {
     text-decoration: none;
     margin-top: 0.5em; 
     vertical-align: baseline;
     background: transparent;
+    color: #888888;
 }
 
 .navElem a:visited {
@@ -263,4 +270,5 @@ input[type="submit"]:hover {
     position: relative;
     float: left;
     width: 49%;
+    margin:5px;
 }
