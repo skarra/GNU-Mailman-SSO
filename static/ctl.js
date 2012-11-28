@@ -1,11 +1,11 @@
 //
 // Created       : Tue Nov 20 14:02:01 IST 2012
-// Last Modified : Wed Nov 28 19:12:54 IST 2012
+// Last Modified : Wed Nov 28 21:09:59 IST 2012
 //
 // Copyright (C) 2012, Sriram Karra <karra.etc@gmail.com>
 // All Rights Reserved
 
-var navElemId;
+var navElemId = null;
 var view_lists_table;
 
 //
@@ -167,22 +167,24 @@ function highlightNavElem () {
     var filename = url.replace(/^.*[\\\/]/, '');
     var elemId;
 
-    console.log('highlightNavElem: filename is: ' + filename);
+    var reg;
+    var actions = ["Home", "View", "Create", "Admin", "Error"];
+    for (var i=0; i < actions.length; i++) {
+	action   = actions[i];
+	action_l = action.toLowerCase();
+	reg = new RegExp("\\/" + action_l);
+	console.log('Reg Ex: ' + reg);
+	if (reg.test(url) == true) {
+	    navElemId = "#nav" + action;
+	}
+    }
 
-    if (filename == "view") {
-	navElemId = "#navView";
-    } else if (filename == "create") {
-	navElemId = "#navCreate";
-    } else if (filename == "admin") {
-	navElemId = "#navAdmin";
-    } else if (filename == "base") {
-	navElemId = "#navHome";
-    } else if (filename == "error") {
-	navElemId = "#navError";
-    } else {
-	console.log('highlightNavElem: Unknown web page: ' + url);
+    if (navElemId == null) {
+	console.log('NavElem: Unknown web page: ' + url);
 	navElemId = "#navHome";
     }
+
+    console.log('navElemId: ' + navElemId);
 
     $(navElemId + " a").css({"font" : "verdana", "color" : "blue"});
 }

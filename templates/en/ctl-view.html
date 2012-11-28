@@ -43,9 +43,39 @@
     </table>
   </div>
 
-  <div id="sub_result" class="half">
+  <div id="vl" class="half">
     <!-- data will be added here dynamically from our javascript code -->
-  </div>
+
+    {% if vl_ln %}
+      <h2 id="vl_name">
+	List Name: <span class="mono"> {{ vl_ln }} </span>
+      </h2>
+      
+      <div id="vl_archives">
+        <a href="{{ vl_archives }}">View List Archives </a>
+      </div>
+      
+      <div id="vl_bd">
+        <label>Brief Description: </label>
+        {{ vl_bd }}
+      </div>
+      
+      <div id="vl_dd">
+        <label>Detailed Description: </label>
+        {{ vl_dd }}
+      </div>
+      
+      <div id="vl_roster">
+        <label>Subscribed folks: </label>
+        <ul>
+          {% for member in vl_roster %}
+            <li> {{ member }} </li>
+          {% end %}
+        </ul>
+      </div>  <!-- #vl_roster -->
+    {% end %}
+  </div> <!-- #vl -->
+
 </div>
 
 {% end block %}

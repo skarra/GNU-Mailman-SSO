@@ -275,6 +275,6 @@ input[type="submit"]:hover {
     display: table-column;
     position: relative;
     float: left;
-    width: 49%;
-    margin:5px;
+    width: 47%;
+    margin: 15px;
 }

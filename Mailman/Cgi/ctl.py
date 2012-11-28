@@ -172,10 +172,19 @@ class View(HTMLAction):
     def __init__ (self):
         HTMLAction.__init__(self, "ctl-view.html")
     
-    def handler (self):
+    def add_req_ln_details (self, ln):
+        ml = MailList.MailList(ln, lock=0)
+
+        self.kwargs_add('vl_ln', ln)
+        self.kwargs_add('vl_archives', '/pipermail/%s' % ln)
+        self.kwargs_add('vl_bd', ml.description)
+        self.kwargs_add('vl_dd', ml.info)
+        self.kwargs_add('vl_roster', ml.getRegularMemberKeys())
+
+    def handler (self, parts):
         listnames = Utils.list_names()
         listnames.sort()
-    
+   
         lists = []
         for name in listnames:
             mlist   = MailList.MailList(name, lock=0)
@@ -191,6 +200,12 @@ class View(HTMLAction):
                           })
     
         self.kwargs_add('lists', lists)
+
+        if len(parts) > 0:
+            self.add_req_ln_details(parts[0])
+        else:
+            self.kwargs_add('vl_ln', None)
+
         self.render()
 
 
@@ -489,7 +504,7 @@ def doit ():
     syslog('sso', 'Getting things underway, here with: %s' % action)
 
     if action == 'view':
-        View().handler()
+        View().handler(parts[1:])
     elif action == 'create':
         Create().handler()
     elif action == 'admin':
