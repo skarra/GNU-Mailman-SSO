@@ -229,7 +229,7 @@ class Subscription(JSONAction):
         userdesc = UserDesc(self.curr_user, u'', mm_cfg.SSO_STOCK_USER_PWD,
                             False)
 
-        if action == 'subscribe':
+        if action == 'join':
             try:
                 text = ('Welcome to %s. Visit the List Server to ' +
                         'manage your subscriptions') % listname
@@ -243,7 +243,7 @@ class Subscription(JSONAction):
                 self.kwargs_add('notice_success', False)
                 self.kwargs_add('notice_text',
                                 'You are already subscribed to %s' % listname)
-        elif action == 'unsubscribe':
+        elif action == 'leave':
             try:
                 mlist.ApprovedDeleteMember(self.curr_user)
                 mlist.Save()
