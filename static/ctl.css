@@ -278,3 +278,8 @@ input[type="submit"]:hover {
     width: 47%;
     margin: 15px;
 }
+
+ul, ol {
+    margin: 0;
+    padding-left: 22px;
+}

@@ -270,11 +270,11 @@ table.display tr.even.gradeU {
 
 
 tr.odd {
-	background-color: #E2E4FF;
+	background-color: #BFC2BE; /* #E2E4FF; */
 }
 
 tr.even {
-	background-color: white;
+	background-color: #E7E9E6; /*  white; */
 }
 
 
@@ -390,7 +390,7 @@ table.display tr.odd.row_selected td {
  */
 /* For the standard odd/even */
 tr.odd td.sorting_1 {
-	background-color: #D3D6FF;
+	background-color: #A8ADA7; /* #D3D6FF; */
 }
 
 tr.odd td.sorting_2 {
@@ -402,7 +402,7 @@ tr.odd td.sorting_3 {
 }
 
 tr.even td.sorting_1 {
-	background-color: #EAEBFF;
+	background-color: #CBCFC8; /* #EAEBFF; */
 }
 
 tr.even td.sorting_2 {

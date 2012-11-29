@@ -1,6 +1,6 @@
 //
 // Created       : Tue Nov 20 14:02:01 IST 2012
-// Last Modified : Wed Nov 28 21:09:59 IST 2012
+// Last Modified : Wed Nov 28 23:18:08 IST 2012
 //
 // Copyright (C) 2012, Sriram Karra <karra.etc@gmail.com>
 // All Rights Reserved
@@ -19,7 +19,7 @@ function addHandlersBase () {
 // ctl-view specific handlers
 //
 
-function subscribeActions () {
+function subActions () {
     var aPos  = view_lists_table.fnGetPosition(this);
     var aData = view_lists_table.fnGetData(aPos[0]);
     var list   = aData[0];
@@ -41,7 +41,7 @@ function subscribeActions () {
 		   // just redirect for now, which will re-render the
 		   // page. FIXME: for better performance
 
-		   window.location = '/mailman/ctl/view';
+		   window.location = '/mailman/ctl/view/' + list;
 
 		   // if (action == 'subscribe') {
 		   //     news = 'Unsubscribe';
@@ -60,6 +60,14 @@ function subscribeActions () {
 	  });
 }
 
+function viewActions () {
+    var aPos  = view_lists_table.fnGetPosition(this);
+    var aData = view_lists_table.fnGetData(aPos[0]);
+    var list   = aData[0];
+
+    window.location = '/mailman/ctl/view/' + list;
+}
+
 function addHandlersView () {
     view_lists_table = $("#view_lists_table").dataTable({
 	"aoColumns": [
@@ -68,7 +76,8 @@ function addHandlersView () {
             { "sWidth": "17%", "sClass": "center"}],
 
 	"fnDrawCallback" : function(oSettings) {
-	    $("#view_lists_table tbody td.clickable").click(subscribeActions);
+	    $("#view_lists_table tbody td.clickable.subscribe").click(subActions);
+	    $("#view_lists_table tbody td.clickable.view").click(viewActions);
 	}
     });
 }
@@ -173,7 +182,7 @@ function highlightNavElem () {
 	action   = actions[i];
 	action_l = action.toLowerCase();
 	reg = new RegExp("\\/" + action_l);
-	console.log('Reg Ex: ' + reg);
+
 	if (reg.test(url) == true) {
 	    navElemId = "#nav" + action;
 	}

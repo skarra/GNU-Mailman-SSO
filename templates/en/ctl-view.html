@@ -14,6 +14,8 @@
     <h2>
       All lists on <span class="mono">lists.cleartrip.com</span>
     </h2>
+    Click on the list name to view details of list including currently
+    subscribed members. <p/>
 
     <table id="view_lists_table" name="view_lists_table" class="display">
       <thead>
@@ -28,13 +30,13 @@
 	{% for list in lists %}
 	{% set sub = list['subscribed'] %}
 	<tr>
-	  <td> {{ list['real_name'] }} </td>
+	  <td class="clickable view"> {{ list['real_name'] }} </td>
 	  <td> {{ list['description'] }} </td>
-	  <td class="clickable">
+	  <td class="clickable subscribe">
 	    {% if sub %}
-	    Unsubscribe
+	    Leave
 	    {% else %}
-	    Subscribe
+	    Join
 	    {% end %}
 	  </td>
 	</tr>
@@ -47,35 +49,77 @@
     <!-- data will be added here dynamically from our javascript code -->
 
     {% if vl_ln %}
-      <h2 id="vl_name">
-	List Name: <span class="mono"> {{ vl_ln }} </span>
-      </h2>
+    <table>
+      <tr> 
+	<td class="right"> <h2> List Name: </h2>  </td>
+	<td> <h2 class="mono" id="vl_name"> {{ vl_ln }} </h2> </td>
+      </tr>
       
-      <div id="vl_archives">
-        <a href="{{ vl_archives }}">View List Archives </a>
-      </div>
+      <tr> 
+	<td class="right"> <label> Mailing address: </label>  </td>
+	<td> 
+	  <div class="mono" id="vl_addr"> 
+	    <a href="mailto:{{ vl_ln }}@lists.cleartrip.com">
+	      {{ vl_ln }}@lists.cleartrip.com
+	    </a>
+	  </div> 
+	</td>
+      </tr>
+
+      <tr>
+	<td class="right"> <label> List Archives: <label> </td>
+	<td> 
+	  <div id="vl_archives"> 
+	    <a href="{{ vl_archives }}"> {{ vl_archives }} </a>
+	  </div>
+	</td>
+      </tr>
       
-      <div id="vl_bd">
-        <label>Brief Description: </label>
-        {{ vl_bd }}
-      </div>
+      <tr>
+	<td class="right"> <label>Brief Description: </label>  </td>
+	<td> 
+	  <div id="vl_bd">
+	    {% if vl_bd %}
+	      {{ vl_bd }} 
+	    {% else %}
+	      Not Available
+	    {% end %}
+	  </div> 
+	</td>
+      </tr>
       
-      <div id="vl_dd">
-        <label>Detailed Description: </label>
-        {{ vl_dd }}
-      </div>
+      <tr>
+	<td class="right"> <label>Detailed Description: </label> </td>
+	<td> 
+	  <div id="vl_dd"> 
+	    {% if vl_dd %}
+	      {{ vl_dd }} 
+	    {% else %}
+	      Not Available
+	    {% end %}
+	</div>   </td>
+      </tr>
       
-      <div id="vl_roster">
-        <label>Subscribed folks: </label>
-        <ul>
-          {% for member in vl_roster %}
-            <li> {{ member }} </li>
-          {% end %}
-        </ul>
-      </div>  <!-- #vl_roster -->
+      <tr>
+	<td class="right"> <label>Subscriber Count: </label> </td>
+	<td> {{ len(vl_roster) }} </td>
+      </tr>
+
+      <tr valign="top">
+	<td class="right"> <label>Subscriber List: </label> </td>
+	<td> 
+	  <div id="vl_roster">
+            <ol>
+              {% for member in vl_roster %}
+              <li> {{ member }} </li>
+              {% end %}
+            </ol>
+	  </div>  <!-- #vl_roster -->
+	</td>
+      </tr>
+    </table>
     {% end %}
   </div> <!-- #vl -->
-
 </div>
 
 {% end block %}
