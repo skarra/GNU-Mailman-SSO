@@ -273,6 +273,7 @@ class Create(HTMLAction):
         self._moderate = mm_cfg.DEFAULT_DEFAULT_MEMBER_MODERATION
         self._notify = 1
         self._info = self.cgival('lc_info')
+        self._welcome = self.cgival('lc_welcome')
         self._desc = self.cgival('lc_desc')
 
     @property
@@ -318,6 +319,10 @@ class Create(HTMLAction):
     @property
     def info (self):
         return self._info
+
+    @property
+    def welcome (self):
+        return self._welcome
 
     @property
     def desc (self):
@@ -397,6 +402,23 @@ class Create(HTMLAction):
 
         self.ml.Save()
 
+
+    def set_ml_defaults (self):
+        self.ml.default_member_moderation = self.moderate
+        self.ml.web_page_url = mm_cfg.DEFAULT_URL_PATTERN % self.hn
+        self.ml.host_name = self.eh
+        self.ml.info = self.info
+        self.ml.description = self.desc
+        self.ml.welcome_msg = self.welcome
+
+        self.ml.send_welcome_msg = mm_cfg.SSO_DEFAULT_SEND_WELCOME_MSG
+        self.ml.send_goodbye     = mm_cfg.SSO_DEFAULT_SEND_GOODBYE_MSG
+        self.ml.send_reminders   = mm_cfg.SSO_DEFAULT_SEND_REMINDERS
+
+        ## FIXME: Should support more list configuration options supported by
+        ## Mailman.
+
+
     def request_create (self):
         """Creates a list (name taken from the CGI form value called lc_name).
 
@@ -445,11 +467,8 @@ class Create(HTMLAction):
 
             # Initialize the host_name and web_page_url attributes, based on
             # virtual hosting settings and the request environment variables.
-            self.ml.default_member_moderation = self.moderate
-            self.ml.web_page_url = mm_cfg.DEFAULT_URL_PATTERN % self.hn
-            self.ml.host_name = self.eh
-            self.ml.info = self.info
-            self.ml.description = self.desc
+
+            self.set_ml_defaults()
             self.ml.Save()
 
             syslog('sso', 'Successfully created list: %s' % self.ln)
@@ -494,6 +513,7 @@ class Admin(HTMLAction):
     def __init__ (self):
         Action.__init__(self, "ctl-admin.html")
 
+
 def doit ():
     parts = Utils.GetPathPieces()
     if not parts:
@@ -521,6 +541,7 @@ def doit ():
         ## FIXME: This should throw a 404.
         Home().handler()
 
+
 def main ():
     try:
         doit()
@@ -533,6 +554,6 @@ def main ():
         err.kwargs_add('error', traceback.format_exc())
         err.handler()        
 
-
+
 if __name__ == "__main__":
     main()
