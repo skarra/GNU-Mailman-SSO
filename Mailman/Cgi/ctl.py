@@ -81,6 +81,7 @@ class Action(object):
         self._cgidata   = cgi.FieldStorage()
         self._templ     = templ
         self._curr_user = get_curr_user()
+        self._all_mls   = None
         self._templ_dir = "../templates/en"
         self.kwargs     = {'auto_version' : auto_version,
                            'curr_user'    : self.curr_user,
@@ -105,6 +106,23 @@ class Action(object):
     @property
     def curr_user (self):
         return self._curr_user
+
+    @property
+    def all_mls (self):
+        """A dictionary of listname to corresponding MailList objects. The
+        lists are not locked. This is an important thing to keep in mind.
+
+        This is potentially time consuming to create for every call. We may
+        revisit this as a potential performance improvement. FIXME"""
+
+        if self._all_mls:
+            return self._all_mls
+
+        self._all_mls = {}
+        for name in Utils.list_names():
+            self._all_mls[name] = MailList.MailList(name, lock=0)
+
+        return self._all_mls
 
     def kwargs_add (self, key, val):
         self.kwargs.update({key : val})
@@ -182,12 +200,8 @@ class View(HTMLAction):
         self.kwargs_add('vl_roster', ml.getRegularMemberKeys())
 
     def handler (self, parts):
-        listnames = Utils.list_names()
-        listnames.sort()
-   
         lists = []
-        for name in listnames:
-            mlist   = MailList.MailList(name, lock=0)
+        for name, mlist in self.all_mls.iteritems():
             members = mlist.getRegularMemberKeys()
             subscribed = True if self.curr_user in members else False
     
@@ -268,7 +282,7 @@ class Create(HTMLAction):
         self._owner = self.curr_user
         self._hn = Utils.get_domain()
         self._eh = mm_cfg.VIRTUAL_HOSTS.get(self.hn, mm_cfg.DEFAULT_EMAIL_HOST)
-        self._ml = MailList.MailList()
+        self._ml = None
         self._langs = [mm_cfg.DEFAULT_SERVER_LANGUAGE]
         self._moderate = mm_cfg.DEFAULT_DEFAULT_MEMBER_MODERATION
         self._notify = 1
@@ -336,7 +350,7 @@ class Create(HTMLAction):
         # could be bad!
         sys.exit(0)
 
-    def errcheck (self):
+    def errcheck (self, action):
         """Performs all error checks. Returns None is all's good. Otherwise
         returns a string with error message."""
 
@@ -349,8 +363,8 @@ class Create(HTMLAction):
         if '@' in self.ln:
             return 'List name must not include "@": %s' % self.safeln
 
-        if Utils.list_exists(self.ln):
-            return 'List already exists: %s' % safe_ln
+        if action == 'create' and Utils.list_exists(self.ln):
+            return 'List already exists: %s' % self.safe_ln
 
         if mm_cfg.VIRTUAL_HOST_OVERVIEW and \
           not mm_cfg.VIRTUAL_HOSTS.has_key(self.hn):
@@ -380,8 +394,11 @@ class Create(HTMLAction):
     def add_members (self):
         """Add any email addressses that are provided in the create form."""
 
-        text = ('Welcome to %s. Visit the List Server to ' +
-                'manage your subscriptions') % self.ln
+        if self.welcome == '':
+            text = ('Welcome to %s. Visit the List Server to ' +
+            'manage your subscriptions') % self.ln
+        else:
+            text = self.welcome
 
         for key in self.cgidata.keys():
             if re.match('^lc_member_', key):
@@ -402,6 +419,36 @@ class Create(HTMLAction):
 
         self.ml.Save()
 
+
+    def edit_members (self):
+        oldm = self.ml.getRegularMemberKeys()
+        newm = []
+        for key in self.cgidata.keys():
+            if re.match('^lc_member_', key):
+                fn, em = parseaddr(self.cgival(key).lower().strip())
+                newm.append(em)
+
+        remove = [x for x in oldm if not x in newm]
+        insert = [x for x in newm if not x in oldm]
+
+        syslog('sso', 'Will remove %s from list %s' % (remove, self.ln))
+        syslog('sso', 'Will add %s to list %s' % (insert, self.ln))
+
+        for em in remove:
+            self.ml.ApprovedDeleteMember(em, whence='SSO Web Interface')
+
+        for em in insert:
+            userdesc = UserDesc(em, '', mm_cfg.SSO_STOCK_USER_PWD, False)
+            try:
+                self.ml.ApprovedAddMember(userdesc, True, self.welcome,
+                                          whence='SSO List Edit')
+                syslog('sso',
+                       'Successfully added %s to list: %s' % (em,
+                                                              self.ln))
+            except Errors.MMAlreadyAMember:
+                syslog('sso',
+                       'request_edit: %s already a member of list %s' % (em,
+                                                                         self.ln))
 
     def set_ml_defaults (self):
         self.ml.default_member_moderation = self.moderate
@@ -426,7 +473,8 @@ class Create(HTMLAction):
         containing error message if list could not be created for whatever
         reason."""
 
-        err = self.errcheck()
+        self._ml = MailList.MailList()
+        err = self.errcheck(action='create')
         if err:
             return err
 
@@ -493,21 +541,91 @@ class Create(HTMLAction):
 
         return None
 
-    def handler (self):
-        if self.cgidata.has_key('lc_submit'):
-            error = self.request_create()
-            self.kwargs_add('action_taken', True)
-            self.kwargs_add('create_ln', self.ln)
-            if not error:
-                self.kwargs_add('create_status', 'Successfully Created')
-            else:
-                self.kwargs_add('create_status',
-                                'Creation failed (%s)' % error)
+    def request_edit (self):
+        self._ml = self.all_mls[self.ln]
+        err = self.errcheck(action='edit')
+        if err:
+            return err
+
+        # We've got all the data we need, so go ahead and try to edit the
+        # list See admin.py for why we need to set up the signal handler.
+
+        try:
+            signal.signal(signal.SIGTERM, self.sigterm_handler)
+
+            syslog('sso', 'internal_name: %s' % self.ml.real_name)
+            syslog('sso', 'internal_name: %s' % self.ml._internal_name)
+            self.ml.Lock()
+
+            # Initialize the host_name and web_page_url attributes, based on
+            # virtual hosting settings and the request environment variables.
+
+            self.set_ml_defaults()
+            self.edit_members()
+            self.ml.Save()
+            syslog('sso', 'Successfully modified list config: %s' % self.ln)
+        finally:
+            # Now be sure to unlock the list.  It's okay if we get a signal
+            # here because essentially, the signal handler will do the same
+            # thing.  And unlocking is unconditional, so it's not an error if
+            # we unlock while we're already unlocked.
+            self.ml.Unlock()
+
+        return None
+
+    def handler_new (self, parts):
+        """This method is invoked when the user tries to create a new list."""
+        error = self.request_create()
+        self.kwargs_add('action_taken', True)
+        self.kwargs_add('create_ln', self.ln)
+        if not error:
+            self.kwargs_add('create_status', 'Successfully Created')
         else:
+            self.kwargs_add('create_status',
+                            'Creation failed (%s)' % error)
+        self.kwargs_add('list_to_edit', None)
+
+    def handler_edit (self, parts):
+        ## This is when a POST request is made after the user fills out
+        ## the form and clicks "Create" button.
+        error = self.request_edit()
+        self.kwargs_add('action_taken', True)
+        self.kwargs_add('create_ln', self.ln)
+        if not error:
+            self.kwargs_add('create_status', 'Successfully Edited')
+        else:
+            self.kwargs_add('create_status',
+                            'Edit failed (%s)' % error)
+        self.kwargs_add('list_to_edit', None)
+
+    def handler (self, parts):
+        owned = []
+        for mln, ml in self.all_mls.iteritems():
+            if self.curr_user in ml.owner:
+                owned.append({'real_name' : ml.real_name,
+                              'description' : Utils.websafe(ml.description)
+                              })
+        self.kwargs_add('lists', owned)
+
+        if self.cgidata.has_key('lc_submit'):
+            if parts[0] == 'new':
+                self.handler_new(parts)
+            else:
+                self.handler_edit(parts)
+        else:
+            ## This is the case when we are landing here through a GET
+            ## request.
             self.kwargs_add('action_taken', False)
 
-        self.render()
+            if (len(parts) == 0 or parts[0] == ''):
+                ## This is the root /create page
+                self.kwargs_add('list_to_edit', None)
+            else:
+                ## This is some /create/xyz type page which is for editing the
+                ## configuration of list named xyz
+                self.kwargs_add('list_to_edit', self.all_mls[parts[0].lower()])
 
+        self.render()
 
 class Admin(HTMLAction):
     def __init__ (self):
@@ -526,7 +644,7 @@ def doit ():
     if action == 'view':
         View().handler(parts[1:])
     elif action == 'create':
-        Create().handler()
+        Create().handler(parts[1:])
     elif action == 'admin':
         Admin().handler()
     elif action == 'subscribe':

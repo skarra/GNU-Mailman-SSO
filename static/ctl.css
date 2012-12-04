@@ -2,7 +2,7 @@
     font-family: "Trebuchet MS", Trebuchet, Verdana, Arial;
 }
 
-div, table {
+table {
     display: block;
 }
 
@@ -58,7 +58,6 @@ h2 {
     cursor: pointer;
     cursor: hand;
 }
-
 
 .navElem a {
     text-decoration: none;
@@ -282,4 +281,8 @@ input[type="submit"]:hover {
 ul, ol {
     margin: 0;
     padding-left: 22px;
+}
+
+.hidden {
+    display: none;
 }

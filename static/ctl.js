@@ -1,12 +1,13 @@
 //
 // Created       : Tue Nov 20 14:02:01 IST 2012
-// Last Modified : Wed Nov 28 23:18:08 IST 2012
+// Last Modified : Tue Dec 04 17:30:48 IST 2012
 //
 // Copyright (C) 2012, Sriram Karra <karra.etc@gmail.com>
 // All Rights Reserved
 
 var navElemId = null;
 var view_lists_table;
+var lists_admin_table;
 
 //
 // ctl-base specific handlers
@@ -108,6 +109,10 @@ function validateNewListDetails () {
 	    msg += "* List name cannnot be empty\n";
 	}
 
+	if (lc_name.toLowerCase().trim() == "new") {
+	    msg += "* Lists cannot be named 'new'. Please try another name\n";
+	}
+
 	if (lc_desc.trim() == "") {
 	    msg += "* Brief description cannot be empty.\n";
 	}
@@ -139,12 +144,21 @@ function validateNewListDetails () {
     return true;
 }
 
+function listsAdminActions () {
+    var aPos  = lists_admin_table.fnGetPosition(this);
+    var aData = lists_admin_table.fnGetData(aPos[0]);
+    var list   = aData[0];
+
+    window.location = '/mailman/ctl/create/' + list;
+}
+
 function addHandlersCreate () {
     var t0 = '<br/><input type="text" class="lc_members"';
     var t1;
     var t2 = ' placeholder="Enter a valid plain email address" />';
     var d = 'lc_member_';
 
+    console.log('Initializing handlers for the create template');
     member_cnt = 2;
 
     $("#lc_member_add_new").click(function() {
@@ -155,6 +169,20 @@ function addHandlersCreate () {
     });
 
     $("#lc_form").submit(validateNewListDetails);
+
+    lists_admin_table = $("#lists_admin_table").dataTable({
+ 	"aoColumns": [
+             { "sWidth": "30%", "sClass": "left" },
+             { "sWidth": "70%", "sClass": "left"}],
+ 
+ 	"fnDrawCallback" : function(oSettings) {
+ 	    $("#lists_admin_table tbody td.clickable.admin").click(listsAdminActions);
+ 	}
+    });
+
+    $("#lc_create_action").click(function() {
+	window.location = '/mailman/ctl/create/new';
+    });    
 }
 
 //
