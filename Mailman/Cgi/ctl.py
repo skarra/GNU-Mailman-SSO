@@ -69,9 +69,9 @@ def get_curr_user ():
         cookie = Cookie.SimpleCookie(os.environ["HTTP_COOKIE"])
         _curr_user = mm_cfg.sso_user_cookie_hook(cookie[cookie_key].value)
     except Cookie.CookieError, e:
-        _curr_user = "Take a hike, Mike - C"
+        _curr_user = "Cookie Error"
     except  KeyError, e:
-        _curr_user = "Take a hike, Mike - K"
+        syslog('sso', 'Cookie key (%s) not found. Forcing signin' % cookie_key)
 
     return _curr_user
 

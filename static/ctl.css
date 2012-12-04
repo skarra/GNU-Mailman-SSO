@@ -291,3 +291,7 @@ ul, ol {
 .hidden {
     display: none;
 }
+
+.red {
+    color: red;
+}

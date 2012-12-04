@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <!--
 // Created       : Tue Nov 20 13:23:58 IST 2012
-// Last Modified : Wed Nov 28 21:00:55 IST 2012
+// Last Modified : Tue Dec 04 23:25:06 IST 2012
 //
 // Copyright (C) 2012, Sriram Karra <karra.etc@gmail.com>
 // All Rights Reserved
@@ -41,10 +41,24 @@
       <span class="handofsean"> List Server </span>
 
       <div class="ffr">
-	{{ curr_user }}
+	{% if curr_user %}
+	  {{ curr_user }}
+	{% else %}
+	  <a href='https://www.cleartrip.com/signin'>Sign In</a>
+	{% end %}
       </div>
     </div>
 
+    {% if not curr_user %}
+
+    <h2 class="red">
+      Access Denied.
+    </h2>
+
+    You are not authenticated to access this site. Use the Sign In link above
+    to login to your cleartrip.com employee account to proceed.
+
+    {% else %}
     <div class="nav">
       <span id="navHome" class="navElem">
 	<a href="/mailman/ctl/home"> Home </a>
@@ -64,9 +78,6 @@
     </div>
 
     <div id="section">
-
-      
-
       {% block section_content %}
       {% end block %}
 
@@ -76,7 +87,7 @@
 	     content inserted in the template block above. -->
 
 	<h2>
-	  Welcome to <span class="mono""> lists.cleartrip.com </span>
+	  Welcome to <span class="mono"> lists.cleartrip.com </span>
 	</h2>
 
 	<p>
@@ -130,7 +141,8 @@
 	<h1> Happy Collaboration!! </h1>
 
       </div>
-   </div>
+    </div> <!-- #section -->
+    {% end %} <!-- if curr_user -->
 
   </body> 
 </html>
