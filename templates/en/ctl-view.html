@@ -17,7 +17,7 @@
 
     <table id="view_lists_table" name="view_lists_table" class="display">
       <thead>
-	<tr>
+	<tr valign="top">
 	  <th> List Name </th>
 	  <th> Description </th>
 	  <th> Action </th>
@@ -27,7 +27,7 @@
       <tbody>
 	{% for list in lists %}
 	{% set sub = list['subscribed'] %}
-	<tr>
+	<tr valign="top">
 	  <td class="clickable view"> {{ list['real_name'] }} </td>
 	  <td> {{ list['description'] }} </td>
 	  <td class="clickable subscribe">
@@ -48,12 +48,12 @@
 
     {% if vl_ln %}
     <table>
-      <tr> 
+      <tr valign="top"> 
 	<td class="right"> <h2> List Name: </h2>  </td>
 	<td> <h2 class="mono" id="vl_name"> {{ vl_ln }} </h2> </td>
       </tr>
       
-      <tr> 
+      <tr valign="top"> 
 	<td class="right"> <label> Mailing address: </label>  </td>
 	<td> 
 	  <div class="mono" id="vl_addr"> 
@@ -64,7 +64,7 @@
 	</td>
       </tr>
 
-      <tr>
+      <tr valign="top">
 	<td class="right"> <label> List Archives: <label> </td>
 	<td> 
 	  <div id="vl_archives"> 
@@ -73,7 +73,7 @@
 	</td>
       </tr>
       
-      <tr>
+      <tr valign="top">
 	<td class="right"> <label>Brief Description: </label>  </td>
 	<td> 
 	  <div id="vl_bd">
@@ -86,7 +86,7 @@
 	</td>
       </tr>
       
-      <tr>
+      <tr valign="top">
 	<td class="right"> <label>Detailed Description: </label> </td>
 	<td> 
 	  <div id="vl_dd"> 
@@ -98,7 +98,7 @@
 	</div>   </td>
       </tr>
       
-      <tr>
+      <tr valign="top">
 	<td class="right"> <label>Subscriber Count: </label> </td>
 	<td> {{ len(vl_roster) }} </td>
       </tr>

@@ -10,6 +10,11 @@ table td label {
     text-align: "right";
 }
 
+td:first-child {
+    width: 30%;
+    white-space: nowrap;
+}
+
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, pre,
 code, dfn, em, img, kbd, q, samp,
 small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li,
