@@ -198,6 +198,8 @@ class View(HTMLAction):
         self.kwargs_add('vl_bd', ml.description)
         self.kwargs_add('vl_dd', ml.info)
         self.kwargs_add('vl_roster', ml.getRegularMemberKeys())
+        self.kwargs_add('vl_owners', ', '.join(ml.owner))
+        self.kwargs_add('vl_owners_email', ml.GetOwnerEmail())
 
     def handler (self, parts):
         lists = []
