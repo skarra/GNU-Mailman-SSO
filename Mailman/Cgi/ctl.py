@@ -575,8 +575,20 @@ class Create(HTMLAction):
 
         return None
 
-    def handler_new (self, parts):
-        """This method is invoked when the user tries to create a new list."""
+    def handler_new (self, parts, submit):
+        """This method is invoked when the user tries to create a new list.
+
+        If submit is False then we render the empty form. On submission of the
+        form (after validation in javascript, we get a submit=True invocation
+        of this same routine."""
+
+        self.kwargs_add('list_to_edit', None)
+        if not submit:
+            self.kwargs_add('lc_empty_form', True)
+            return
+
+        self.kwargs_add('lc_empty_form', False)
+
         error = self.request_create()
         self.kwargs_add('action_taken', True)
         self.kwargs_add('create_ln', self.ln)
@@ -585,7 +597,6 @@ class Create(HTMLAction):
         else:
             self.kwargs_add('create_status',
                             'Creation failed (%s)' % error)
-        self.kwargs_add('list_to_edit', None)
 
     def handler_edit (self, parts):
         ## This is when a POST request is made after the user fills out
@@ -599,6 +610,7 @@ class Create(HTMLAction):
             self.kwargs_add('create_status',
                             'Edit failed (%s)' % error)
         self.kwargs_add('list_to_edit', None)
+        self.kwargs_add('lc_empty_form', False)
 
     def handler (self, parts):
         owned = []
@@ -611,7 +623,7 @@ class Create(HTMLAction):
 
         if self.cgidata.has_key('lc_submit'):
             if parts[0] == 'new':
-                self.handler_new(parts)
+                self.handler_new(parts, submit=True)
             else:
                 self.handler_edit(parts)
         else:
@@ -622,10 +634,15 @@ class Create(HTMLAction):
             if (len(parts) == 0 or parts[0] == ''):
                 ## This is the root /create page
                 self.kwargs_add('list_to_edit', None)
+                self.kwargs_add('lc_empty_form', False)
+            elif parts[0] == 'new':
+                ## This is the root /create/new page
+                self.handler_new(parts, submit=False)
             else:
                 ## This is some /create/xyz type page which is for editing the
                 ## configuration of list named xyz
                 self.kwargs_add('list_to_edit', self.all_mls[parts[0].lower()])
+                self.kwargs_add('lc_empty_form', False)
 
         self.render()
 

@@ -54,7 +54,7 @@
 
   </div>
 
-  {% if not list_to_edit %}
+  {% if not list_to_edit and not lc_empty_form %}
     {% set cl="'hidden'" %}
   {% else %}
     {% set cl="half" %}
