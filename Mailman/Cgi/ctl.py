@@ -139,7 +139,6 @@ class HTMLAction(Action):
         Action.__init__(self, templ)
 
     def render (self):
-        syslog('sso', 'HTMLAction.render()... template: %s' % self.templ)
         loader = template.Loader(self.templ_dir)
         if self.more_headers:
             for header in self.more_headers:
@@ -155,9 +154,7 @@ class JSONAction(Action):
         del self.kwargs['auto_version']
 
     def render (self):
-        syslog('sso', 'JSONAction.render()...')
         if self.more_headers:
-            syslog('sso', 'Headers: %s' % self.more_headers)
             for header in self.more_headers:
                 if header != '':
                     print header
@@ -218,7 +215,6 @@ class View(HTMLAction):
         self.kwargs_add('lists', lists)
 
         if len(parts) > 0:
-            syslog('sso', 'ln: %s' % parts[0])
             try:
                 self.add_req_ln_details(parts[0].strip())
             except:
@@ -234,11 +230,9 @@ class Subscription(JSONAction):
        to the view action handler"""
 
     def __init__ (self):
-        syslog('sso', 'Subscription:__init__()...')
         JSONAction.__init__(self)
 
     def handler (self):
-        syslog('sso', 'Let us get this out of the way...')
         listname = self.cgidata.getvalue('list')
         action   = self.cgidata.getvalue('action').lower().strip()
 
@@ -559,8 +553,6 @@ class Create(HTMLAction):
         try:
             signal.signal(signal.SIGTERM, self.sigterm_handler)
 
-            syslog('sso', 'internal_name: %s' % self.ml.real_name)
-            syslog('sso', 'internal_name: %s' % self.ml._internal_name)
             self.ml.Lock()
 
             # Initialize the host_name and web_page_url attributes, based on
@@ -662,7 +654,6 @@ def doit ():
         return
 
     action = parts[0].lower().strip()
-    syslog('sso', 'Getting things underway, here with: %s' % action)
 
     if action == 'view':
         View().handler(parts[1:])
@@ -671,7 +662,6 @@ def doit ():
     elif action == 'siteadmin':
         Admin().handler()
     elif action == 'subscribe':
-        syslog('sso', 'TG. We are really getting in here.')
         try:
             Subscription().handler()
         except Exception, e:
