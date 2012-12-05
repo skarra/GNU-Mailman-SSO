@@ -213,6 +213,7 @@ class View(HTMLAction):
                           'subscribed'  : subscribed,
                           'owners'      : ', '.join(mlist.owner),
                           'owner-email' : mlist.GetOwnerEmail(),
+                          'advertised'  : mlist.advertised,
                           })
     
         self.kwargs_add('lists', lists)

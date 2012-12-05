@@ -20,6 +20,7 @@
 	<tr valign="top">
 	  <th> List Name </th>
 	  <th> Description </th>
+	  <th> Private </th>
 	  <th> Action </th>
 	</tr>
       </thead>
@@ -30,6 +31,7 @@
 	<tr valign="top">
 	  <td class="clickable view"> {{ list['real_name'] }} </td>
 	  <td> {{ list['description'] }} </td>
+	  <td> {{ "Yes" if not list['advertised'] else "" }} </td>
 	  <td class="clickable subscribe">
 	    {% if sub %}
 	    Leave

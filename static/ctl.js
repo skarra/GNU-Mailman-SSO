@@ -1,6 +1,6 @@
 //
 // Created       : Tue Nov 20 14:02:01 IST 2012
-// Last Modified : Wed Dec 05 23:51:09 IST 2012
+// Last Modified : Thu Dec 06 00:01:23 IST 2012
 //
 // Copyright (C) 2012, Sriram Karra <karra.etc@gmail.com>
 // All Rights Reserved
@@ -72,8 +72,9 @@ function viewActions () {
 function addHandlersView () {
     view_lists_table = $("#view_lists_table").dataTable({
 	"aoColumns": [
-            { "sWidth": "30%", "sClass": "left" },
+            { "sWidth": "25%", "sClass": "left" },
             { "sWidth": "53%", "sClass": "left"},
+            { "sWidth": "5%", "sClass": "center"},
             { "sWidth": "17%", "sClass": "center"}],
 
 	"fnDrawCallback" : function(oSettings) {
