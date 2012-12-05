@@ -425,7 +425,7 @@ class Create(HTMLAction):
         newm = []
         for key in self.cgidata.keys():
             if re.match('^lc_member_', key):
-                fn, em = parseaddr(self.cgival(key).lower().strip())
+                fn, em = parseaddr(self.cgival(key).lower())
                 newm.append(em)
 
         remove = [x for x in oldm if not x in newm]
