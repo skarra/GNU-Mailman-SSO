@@ -79,6 +79,7 @@
       <td> <input type="text" id="lc_name" name="lc_name"
                   {% if list_to_edit %}
                   value={{ list_to_edit.real_name }}
+		  readonly="readonly"
                   {% else %}
                   placeholder="No spaces or special characters."
                   {% end %}
