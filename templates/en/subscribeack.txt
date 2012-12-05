@@ -7,5 +7,5 @@ To post to this list, send your message to:
 If you want to view general information about this list, or if you ever want
 to unsubscribe, you can do that by visiting the following page:
 
-  http://%(host_name)/mailman/ctl/view/%(real_name)s
+  http://%(host_name)s/mailman/ctl/view/%(real_name)s
 
