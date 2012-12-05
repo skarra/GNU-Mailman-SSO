@@ -204,6 +204,9 @@ class View(HTMLAction):
             members = mlist.getRegularMemberKeys()
             subscribed = True if self.curr_user in members else False
 
+            if not mlist.advertised and not subscribed:
+                continue
+
             lists.append({'script_url'  : mlist.GetScriptURL('listinfo'),
                           'real_name'   : mlist.real_name,
                           'description' : Utils.websafe(mlist.description),
@@ -277,6 +280,7 @@ class Create(HTMLAction):
     def __init__ (self):
         HTMLAction.__init__(self, "ctl-listadmin.html")
         self._ln = self.cgival('lc_name').lower()
+        self._priv = self.cgival('lc_private') != ''
         self._safelin = Utils.websafe(self.ln)
         self._pw = mm_cfg.SSO_STOCK_ADMIN_PWD
         self._owner = self.curr_user
@@ -297,6 +301,10 @@ class Create(HTMLAction):
     @property
     def safeln (self):
         return self._safeln
+
+    @property
+    def priv (self):
+        return self._priv
 
     @property
     def pw (self):
@@ -451,6 +459,7 @@ class Create(HTMLAction):
                                                                          self.ln))
 
     def set_ml_defaults (self):
+        self.ml.advertised = not self.priv
         self.ml.default_member_moderation = self.moderate
         self.ml.web_page_url = mm_cfg.DEFAULT_URL_PATTERN % self.hn
         self.ml.host_name = self.eh
@@ -613,7 +622,8 @@ class Create(HTMLAction):
         for mln, ml in self.all_mls.iteritems():
             if self.curr_user in ml.owner:
                 owned.append({'real_name' : ml.real_name,
-                              'description' : Utils.websafe(ml.description)
+                              'description' : Utils.websafe(ml.description),
+                              'advertised' : ml.advertised,
                               })
         self.kwargs_add('lists', owned)
 

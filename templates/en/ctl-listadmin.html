@@ -17,6 +17,8 @@
   </div>
 {% end %}
 
+{% from Mailman import mm_cfg %}
+
 <div class="col_parent">
   <div class="half">
     {% if len(lists) == 0 %}
@@ -32,6 +34,7 @@
         <tr>
           <th> List Name </th>
           <th> Description </th>
+	  <th> Private </th>
         </tr>
       </thead>
 
@@ -40,6 +43,7 @@
         <tr>
           <td class="clickable admin"> {{ list['real_name'] }} </td>
           <td> {{ list['description'] }} </td>
+	  <td> {{ "Yes" if not list['advertised'] else "" }} </td>
         </tr>
         {% end %}
       </tbody>
@@ -85,6 +89,24 @@
                   {% end %}
                   /> 
       </td>
+      </div> <!-- .form_data -->
+    </tr>
+
+    <tr valign="top">
+      <div class="form_data">
+        <td class="right vtalign"> <label> Private List </label> </td>
+        {% if list_to_edit %}
+	  {% set check = None if list_to_edit.advertised else "checked" %}
+	{% else %}
+	  {% set check = None if mm_cfg.DEFAULT_LIST_ADVERTISED else "checked" %}
+	{% end %}
+        <td> 
+	  <input type="checkbox" id="lc_private" name="lc_private" 
+		 {% if check %}
+		 checked={{ check }}
+		 {% end %}
+		 />
+	</td>
       </div> <!-- .form_data -->
     </tr>
 

@@ -1,6 +1,6 @@
 //
 // Created       : Tue Nov 20 14:02:01 IST 2012
-// Last Modified : Wed Dec 05 15:36:52 IST 2012
+// Last Modified : Wed Dec 05 23:51:09 IST 2012
 //
 // Copyright (C) 2012, Sriram Karra <karra.etc@gmail.com>
 // All Rights Reserved
@@ -172,8 +172,10 @@ function addHandlersListAdmin () {
 
     lists_admin_table = $("#lists_admin_table").dataTable({
  	"aoColumns": [
-             { "sWidth": "30%", "sClass": "left" },
-             { "sWidth": "70%", "sClass": "left"}],
+            { "sWidth": "30%", "sClass": "left" },
+            { "sWidth": "60%", "sClass": "left"},
+            { "sWidth": "10%", "sClass": "center"}
+	],
  
  	"fnDrawCallback" : function(oSettings) {
  	    $("#lists_admin_table tbody td.clickable.admin").click(listsAdminActions);
