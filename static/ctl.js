@@ -1,6 +1,6 @@
 //
 // Created       : Tue Nov 20 14:02:01 IST 2012
-// Last Modified : Wed Dec 05 07:48:36 IST 2012
+// Last Modified : Wed Dec 05 15:36:52 IST 2012
 //
 // Copyright (C) 2012, Sriram Karra <karra.etc@gmail.com>
 // All Rights Reserved
@@ -159,7 +159,7 @@ function addHandlersListAdmin () {
     var d = 'lc_member_';
 
     console.log('Initializing handlers for the list admin template');
-    member_cnt = 2;
+    member_cnt = $(".lc_members").length;
 
     $("#lc_member_add_new").click(function() {
 	t1 = ' id="' + d + member_cnt + '" name="' + d + member_cnt + '"';
