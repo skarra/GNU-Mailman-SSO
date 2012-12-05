@@ -295,3 +295,26 @@ ul, ol {
 .red {
     color: red;
 }
+
+qn {
+    font-weight: bold;
+    font-size: 110%;
+    color: green;
+}
+
+li {
+    margin-top: 0.9em; 
+}
+
+p { 
+    margin-top: 0.9em;
+    margin-bottom: 0.9em; 
+}
+
+tr > td {
+    padding-bottom: 0.4em;
+}
+
+li.nopad {
+    margin-top: 0;
+}

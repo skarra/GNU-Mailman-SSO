@@ -1,12 +1,12 @@
 <!DOCTYPE HTML>
 <!--
 // Created       : Tue Nov 20 13:23:58 IST 2012
-// Last Modified : Wed Dec 05 07:51:40 IST 2012
+// Last Modified : Wed Dec 05 12:11:50 IST 2012
 //
 // Copyright (C) 2012, Sriram Karra <karra.etc@gmail.com>
 // All Rights Reserved
 //
-// Licensed under the GNU AGPL v3
+// Licensed under the GNU GPL v3
 // 
 -->
 
@@ -102,39 +102,175 @@
 	  this basic but very functional collaboration resource.
 	</p>
 
-	<h2>Viewing Lists</h2>
+	<h2>Subscriptions</h2>
 	<p>
-	  The "View Lists" tab shows all available email lists. You can find a
-	  brief description of each list's purpose in life, and you can
-	  decided whether to subscribe or not. The same interface also allows
-	  you to unsubscribe from any list you are already on. 
-
-	  Your official email address - the one you used to authenticate
-	  yourself when you came to the site - will be added to / removed from
-	  the list.
+	  This tab shows all available email lists on the server. You can get
+	  details of every list by clicking on the list name, join any list
+	  you choose to, or leave any list you are already on.
 
 	  This list server is designed to be an open and freely accessible
 	  resource.  In its current state all past messages are available in
-	  archives. Links to the archives are availblae next to the list
-	  desriptions in this tab. Feel feel to browse around.
+	  archives. Links to the archives are available in the detailed list
+	  view on this tab. Feel feel to browse around.
 	</p>
 
-	<h2>Create Lists</h2>
+	<h2>Lists Admin</h2>
 	<p>
 	  As mentioned earlier, this list server is designed to be an open and
 	  freely accessible resource. Creating lists is a part of this
-	  freedom. Creation is a simple process, you will be marked as the
-	  "owner" of lists you create. Being an owner does not really mean
-	  much at the moment, but at a future date we will expose
-	  functionality that will allow you to add/remove people to/from a
-	  list and such administrative tasks.
+	  freedom. 
+
+	  In this tab you can create new lists, and manage lists you are
+	  already the owner for. You can edit details of lists, add/remove
+	  subscribers automatically, etc.
 	</p>
 
-	<h2>Admin</h2>
+	<h2>Site Admin</h2>
 	<p>
-	  This tab is for the admins of the list server. So let's not go into
+	  This tab is for the admins of this list server. So let's not go into
 	  this one here.
 	</p>
+
+	<hr />
+
+	<h1> FAQs </h1>
+
+	<ol>
+	  <li>
+	    <qn>What is the software on which this list server
+	    runs</qn> 
+	    <p/>
+	    
+	    The short answer is we are running
+	    a <a href="https://github.com/skarra/GNU-Mailman-SSO">
+	    customized </a> version of
+	    <a href="http://www.gnu.org/software/mailman/index.html"> GNU
+	    Mailman. </a>
+	    <p/>
+
+	    Here is the longer answer: The core mailing list functionality
+	    of <span class="mono">list.cleartrip.com</span> is powered
+	    by <a href="http://www.gnu.org/software/mailman/index.html"> GNU
+	    Mailman. </a> While GNU Mailman is a very stable and powerful list
+	    server, it is too complex for our needs. The simple web interface
+	    you see here was written specially for this implementation. The
+	    source code of the customizations built on top of GNU Mailman
+	    2.1.15, and known as Mailman SSO, is available
+	    on <a href="https://github.com/skarra/GNU-Mailman-SSO">
+	    github </a>
+	  </li>
+	  <p/>
+
+	  <li>
+	    <qn>What are the key differences between the stock GNU Mailman
+	    and Mailman SSO? </qn>
+	    <p/>
+
+	    <ul>
+	      <li> Built for a intranet-type set up. Understands the Cleartrip
+	      account login cookie and enables functionality on that </li>
+
+	      <li> List subscribe and unsubscribe are single click
+	      operations. </li>
+
+	      <li> There are no passwords to remember. You will not receive
+	      monthly reminders for each list you are subscribed to - because
+	      Mailman SSO takes care of this behind the scenes </li>
+
+	      <li> A lot of the GNU Mailman functionality is not
+	      exported. Many of the features will never be exposed. Others
+	      will be supported over time, for e.g. - private lists, private
+	      archives, subscribing in digest mode, etc.</li>
+	    </ul>
+	  </li>
+	  <p/>
+
+	  <li>
+	    <qn>Are there any guidelines for creating new lists?</qn>
+	    <p/>
+
+	    <strong> General Guidelines </strong> <p/>
+	    <ul>
+	      <li> Use short but descriptive names for your lists </li>
+	      <li> Provide a good description for others considering joining
+	      your list. </li>
+	    </ul>
+	    <p/>
+
+	    <strong> Guidelines for project related lists </strong> <p/>
+	    It will be beneficial if we follow some general naming
+	    conventions. The suggestions are best explained by some examples:
+	    <ul>
+	      <li> <span class="mono">sw-dev</span> for Small World
+	      development issues, code review requests, etc.</li>
+
+	      <li> <span class="mono">sw-q</span> this is where the Small World
+	      QA team hangs out </li>
+
+	      <li> <span class="mono">sw-design</span> for Small World
+	      UI and Design team</li>
+
+	      <li> <span class="mono">sw-cs</span> this is where the Small
+	      World public feedback forms will send the output. </li>
+
+	      <li> <span class="mono">sw</span> This is where all the Small
+	      World stake holders can be reached. This will include the PMs,
+	      manager of the PM, the Engineering lead's manager, all the
+	      devs, QA, design folks, marketing folks, etc.</li>
+	    </ul>
+	    <p/>
+
+	    <strong> Guidelines for other lists </strong> <p/>
+	    <ul>
+	      <li> Check the lists that already exist. Do not create a new
+	      list when there is something similar already. </li>
+
+	      <li> Remember that all lists are archived publicly
+	      (i.e. accessible to anyone inside Cleartrip). So use your
+	      discretion. </li>
+	    </ul>
+	  </li>
+	  <p/>
+
+	  <li>
+	    <qn>We already have Basecamp, Jira and Distribution Lists on the
+	    email server. What is the need for this list server? </qn>
+	    <p/>
+
+	    These tools have a few issues. In no particular order: 
+
+	    <ol>
+	      <li> They are all centralized and 'official'. Adding or
+		removing people to DLs, or creating a new DL, has to go
+		through a bureaucratic, and non-scalable process. </li>
+
+	      <li> The setup overhead is a barrier for enabling collaboration
+		in short-lived projects that nevertheless need some IT
+		support </li>
+
+	      <li> None of them are really built for informal "networking" or
+		collaboration that's not directly related to a specific
+		Corporate-sanctioned Basecamp-blessed project. For e.g. an
+		arts interest group, or a forum for discussing tricks of
+		programming in Rails, etc.</li>
+
+	      <li> Have you ever written a Message on Basecamp and felt what a
+		chore it was to find and select all the people you wanted to be
+		notified? Well, you are not alone. </li>
+	    </ol>
+	    <p/>
+
+	    All in all, clearly we can do better than them, with a
+	    decentralized collaboration tool that empowers us to do the right
+	    thing, help us collaborate more effectivley, and all without
+	    adding to the load on any support function.
+	    <p/>
+
+	    Sure, Mailing Lists are so-1990s-ish. But we think it will boost
+	    the levels of interaction and cross-team collobration from what we
+	    have today.
+	  </li>
+	</ol>
 
 	<hr />
 
