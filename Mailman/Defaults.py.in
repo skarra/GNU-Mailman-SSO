@@ -1523,11 +1523,6 @@ add_language('zh_TW', _('Chinese (Taiwan)'),    'utf-8',       'ltr')
 ## ideally be overridden in mm_cfg.py after installation.
 ##
 
-## This is the cookie that the intranet Single Sign On sets that can be used
-## to authenticate the user. This is the only authentication the user will
-## have to perform that across Mailman
-SSO_USER_COOKIE = ''
-
 ###
 ### FIXME: All of these should ideally not be in a python source, but in a
 ### database table - except for the master admin. BUt we'll go with this for
@@ -1550,15 +1545,34 @@ SSO_ADMIN_AUTHIDS = []
 ## this list. This value should be customized in mm_cfg.py.
 SSO_LIST_CREATE_AUTHIDS = []
 
+## There are some defaults that will apply only to lists created through the
+## SSO interface. They are set down below, and their behaviour should be self
+## explanatory as the variables have a SSO_ prefix to the similar stock
+## default variable defined above in this file for general Mailman behaviour
+
+SSO_DEFAULT_SEND_WELCOME_MSG = Yes
+SSO_DEFAULT_SEND_GOODBYE_MSG = No
+SSO_DEFAULT_SEND_REMINDERS   = No
+
+## This is the cookie that the intranet Single Sign On sets that can be used
+## to authenticate the user. This is the only authentication the user will
+## have to perform that across Mailman. With edits.
+SSO_USER_COOKIE = ''
+
 def sso_user_cookie_hook (val):
     """This routine is called after the user authentication cookie is
     read. You can override this in mm_cfg.py if you want to do any processing
     of the cookie value.
 
     The method should return a string which will be interpreted as the value
-    of the cookie."""
+    of the cookie.
 
-    return val
+    A return value of None will mean the user is not authenticated to use this
+    site. Nothing is displayed for such users. This is the default value here,
+    which is a way to force your implementation to override this function in
+    mm_cfg.py"""
+
+    return None
 
 
 del _
