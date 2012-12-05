@@ -191,7 +191,7 @@ class View(HTMLAction):
         HTMLAction.__init__(self, "ctl-view.html")
     
     def add_req_ln_details (self, ln):
-        ml = MailList.MailList(ln, lock=0)
+        ml = self.all_mls[ln]
 
         self.kwargs_add('vl_ln', ln)
         self.kwargs_add('vl_archives', '/pipermail/%s' % ln)
@@ -206,7 +206,7 @@ class View(HTMLAction):
         for name, mlist in self.all_mls.iteritems():
             members = mlist.getRegularMemberKeys()
             subscribed = True if self.curr_user in members else False
-    
+
             lists.append({'script_url'  : mlist.GetScriptURL('listinfo'),
                           'real_name'   : mlist.real_name,
                           'description' : Utils.websafe(mlist.description),
@@ -218,7 +218,11 @@ class View(HTMLAction):
         self.kwargs_add('lists', lists)
 
         if len(parts) > 0:
-            self.add_req_ln_details(parts[0])
+            syslog('sso', 'ln: %s' % parts[0])
+            try:
+                self.add_req_ln_details(parts[0].strip())
+            except:
+                self.kwargs_add('vl_ln', None)
         else:
             self.kwargs_add('vl_ln', None)
 
