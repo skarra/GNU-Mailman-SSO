@@ -1,6 +1,6 @@
 //
 // Created       : Tue Nov 20 14:02:01 IST 2012
-// Last Modified : Tue Dec 04 17:30:48 IST 2012
+// Last Modified : Wed Dec 05 07:48:36 IST 2012
 //
 // Copyright (C) 2012, Sriram Karra <karra.etc@gmail.com>
 // All Rights Reserved
@@ -84,7 +84,7 @@ function addHandlersView () {
 }
 
 //
-// ctl-create specific handlers
+// ctl-listadmin specific handlers
 //
 
 var member_cnt;
@@ -149,16 +149,16 @@ function listsAdminActions () {
     var aData = lists_admin_table.fnGetData(aPos[0]);
     var list   = aData[0];
 
-    window.location = '/mailman/ctl/create/' + list;
+    window.location = '/mailman/ctl/listadmin/' + list;
 }
 
-function addHandlersCreate () {
+function addHandlersListAdmin () {
     var t0 = '<br/><input type="text" class="lc_members"';
     var t1;
     var t2 = ' placeholder="Enter a valid plain email address" />';
     var d = 'lc_member_';
 
-    console.log('Initializing handlers for the create template');
+    console.log('Initializing handlers for the list admin template');
     member_cnt = 2;
 
     $("#lc_member_add_new").click(function() {
@@ -181,7 +181,7 @@ function addHandlersCreate () {
     });
 
     $("#lc_create_action").click(function() {
-	window.location = '/mailman/ctl/create/new';
+	window.location = '/mailman/ctl/listadmin/new';
     });    
 }
 
@@ -205,7 +205,7 @@ function highlightNavElem () {
     var elemId;
 
     var reg;
-    var actions = ["Home", "View", "Create", "Admin", "Error"];
+    var actions = ["Home", "View", "ListAdmin", "SiteAdmin", "Error"];
     for (var i=0; i < actions.length; i++) {
 	action   = actions[i];
 	action_l = action.toLowerCase();
@@ -229,9 +229,9 @@ function highlightNavElem () {
 function addHandlers () {
     if (navElemId == "#navView") {
 	addHandlersView();
-    } else if (navElemId == "#navCreate") {
-	addHandlersCreate();
-    } else if (navElemId == "#navAdmin") {
+    } else if (navElemId == "#navListAdmin") {
+	addHandlersListAdmin();
+    } else if (navElemId == "#navSiteAdmin") {
 	addHandlersAdmin();
     } else if (navElemId == "#navError") {
 	addHandlersError();

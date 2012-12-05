@@ -277,7 +277,7 @@ class Subscription(JSONAction):
 
 class Create(HTMLAction):
     def __init__ (self):
-        HTMLAction.__init__(self, "ctl-create.html")
+        HTMLAction.__init__(self, "ctl-listadmin.html")
         self._ln = self.cgival('lc_name').lower()
         self._safelin = Utils.websafe(self.ln)
         self._pw = mm_cfg.SSO_STOCK_ADMIN_PWD
@@ -648,7 +648,7 @@ class Create(HTMLAction):
 
 class Admin(HTMLAction):
     def __init__ (self):
-        Action.__init__(self, "ctl-admin.html")
+        Action.__init__(self, "ctl-siteadmin.html")
 
 
 def doit ():
@@ -662,9 +662,9 @@ def doit ():
 
     if action == 'view':
         View().handler(parts[1:])
-    elif action == 'create':
+    elif action == 'listadmin':
         Create().handler(parts[1:])
-    elif action == 'admin':
+    elif action == 'siteadmin':
         Admin().handler()
     elif action == 'subscribe':
         syslog('sso', 'TG. We are really getting in here.')
