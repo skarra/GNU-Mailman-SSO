@@ -1560,6 +1560,13 @@ SSO_DEFAULT_SEND_REMINDERS   = No
 ## through the SSO web interface.
 SSO_DEFAULT_GENERIC_NONMEMBER_ACTION = 0
 
+SSO_DEFAULT_MSG_FOOTER = """_______________________________________________
+%(real_name)s mailing list
+%(real_name)s@%(host_name)s
+%(web_page_url)sctl/view/%(_internal_name)s
+"""
+SSO_DEFAULT_DIGEST_FOOTER = SSO_DEFAULT_MSG_FOOTER
+
 ## This is the cookie that the intranet Single Sign On sets that can be used
 ## to authenticate the user. This is the only authentication the user will
 ## have to perform that across Mailman. With edits.
