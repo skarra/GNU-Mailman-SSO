@@ -471,6 +471,7 @@ class Create(HTMLAction):
         self.ml.send_welcome_msg = mm_cfg.SSO_DEFAULT_SEND_WELCOME_MSG
         self.ml.send_goodbye     = mm_cfg.SSO_DEFAULT_SEND_GOODBYE_MSG
         self.ml.send_reminders   = mm_cfg.SSO_DEFAULT_SEND_REMINDERS
+        self.ml.generic_nonmember_action = mm_cfg.SSO_DEFAULT_GENERIC_NONMEMBER_ACTION
 
         ## FIXME: Should support more list configuration options supported by
         ## Mailman.

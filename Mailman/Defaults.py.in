@@ -1554,6 +1554,12 @@ SSO_DEFAULT_SEND_WELCOME_MSG = Yes
 SSO_DEFAULT_SEND_GOODBYE_MSG = No
 SSO_DEFAULT_SEND_REMINDERS   = No
 
+## As this is an intranet installation, we will allow non-members to send
+## messages. The default is to hold such messages for moderation. See variable
+## above for the regular default. This default is used for all lists created
+## through the SSO web interface.
+SSO_DEFAULT_GENERIC_NONMEMBER_ACTION = 0
+
 ## This is the cookie that the intranet Single Sign On sets that can be used
 ## to authenticate the user. This is the only authentication the user will
 ## have to perform that across Mailman. With edits.
