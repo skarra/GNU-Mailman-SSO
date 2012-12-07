@@ -7,19 +7,21 @@
 {% block section_content %}
 
 
-<div class="col_parent">
-  <div class="half">
+<div>
+  <div class="inbl">
     <h2>
       All lists on <span class="mono">lists.cleartrip.com</span>
     </h2>
     Click on the list name to view details of list including currently
     subscribed members. <p/>
 
-    <table id="view_lists_table" name="view_lists_table" class="display">
+    <table id="view_lists_table" name="view_lists_table" class="display"
+       width="100%">
       <thead>
 	<tr valign="top">
 	  <th> List Name </th>
 	  <th> Description </th>
+	  <th> Owners </th>
 	  <th> Private </th>
 	  <th> Action </th>
 	</tr>
@@ -31,6 +33,8 @@
 	<tr valign="top">
 	  <td class="clickable view"> {{ list['real_name'] }} </td>
 	  <td> {{ list['description'] }} </td>
+	  <td> <a href="mailto:{{list['owner-email']}}"> {{ list['owners'] }}
+	    </a> </td>
 	  <td> {{ "Yes" if not list['advertised'] else "" }} </td>
 	  <td class="clickable subscribe">
 	    {% if sub %}
@@ -45,10 +49,14 @@
     </table>
   </div>
 
-  <div id="vl" class="half">
+
+  <div id="vl">
     <!-- data will be added here dynamically from our javascript code -->
 
     {% if vl_ln %}
+    <br/>
+    <hr/>
+    <p/>
     <table>
       <tr valign="top"> 
 	<td class="right"> <h2> List Name: </h2>  </td>

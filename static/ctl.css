@@ -11,7 +11,6 @@ table td label {
 }
 
 td:first-child {
-    width: 30%;
     white-space: nowrap;
 }
 
@@ -317,4 +316,8 @@ tr > td {
 
 li.nopad {
     margin-top: 0;
+}
+
+.inbl {
+    display: inline-block;
 }
