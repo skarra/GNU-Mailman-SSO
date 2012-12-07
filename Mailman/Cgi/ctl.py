@@ -62,6 +62,17 @@ def auto_version (resource):
     return ''.join([res.group(1), 'v', timestamp, '.', res.group(2)])
 
 
+def can_create_lists (em):
+    """Returns True if a user is authorized to create lists on the
+    server. False if otherwise. By default this method merely checks if em is
+    in the SSO_LIST_CREATE_AUTHIDS array."""
+
+    syslog('sso', 'can_create_lists: em = %s; authids = %s' % (em, mm_cfg.SSO_LIST_CREATE_AUTHIDS))
+    if not mm_cfg.SSO_LIST_CREATE_AUTHIDS or em in mm_cfg.SSO_LIST_CREATE_AUTHIDS:
+        return True
+
+    return False
+
 def get_curr_user ():
     """Extracts the Cleartrip userid from the cookie. This cookie is set by
     any authenticated Cleartrip site - and as a result the site where this
@@ -634,6 +645,7 @@ class Create(HTMLAction):
                               'advertised' : ml.advertised,
                               })
         self.kwargs_add('lists', owned)
+        self.kwargs_add('can_create_lists', can_create_lists)
 
         if self.cgidata.has_key('lc_submit'):
             if parts[0] == 'new':

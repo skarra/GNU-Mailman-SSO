@@ -1542,8 +1542,12 @@ SSO_ADMIN_AUTHIDS = []
 
 ## A list of users who are authorized to create lists. A user is authenticated
 ## if the value of the SSO_USER_COOKIE (above) matches one of the items in
-## this list. This value should be customized in mm_cfg.py.
-SSO_LIST_CREATE_AUTHIDS = []
+## this list. This value should be customized in mm_cfg.py. Two special cases
+## exist:
+## 
+## None - anyone can create list.
+## []   - i.e. empty list - No one can create lists
+SSO_LIST_CREATE_AUTHIDS = None
 
 ## There are some defaults that will apply only to lists created through the
 ## SSO interface. They are set down below, and their behaviour should be self

@@ -52,8 +52,13 @@
 
     <div style="display: block; position:relative">
       <br/><hr/>
-      Click <label> <span id="lc_create_action" class="clickable">here</span>
-      </label> to create a new list<p/>
+      {% if can_create_lists(curr_user) %}
+        Click <label> <span id="lc_create_action" class="clickable">here</span>
+        </label> to create a new list<p/>
+      {% else %}
+        You are not authorized to create lists on this server. Contact the
+        site administrator for more information. <p/>
+      {% end %}
     </div>
 
   </div>
