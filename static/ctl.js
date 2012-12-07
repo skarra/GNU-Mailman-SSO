@@ -1,6 +1,6 @@
 //
 // Created       : Tue Nov 20 14:02:01 IST 2012
-// Last Modified : Fri Dec 07 17:39:58 IST 2012
+// Last Modified : Fri Dec 07 18:41:09 IST 2012
 //
 // Copyright (C) 2012, Sriram Karra <karra.etc@gmail.com>
 // All Rights Reserved
@@ -151,13 +151,13 @@ function listsAdminActions () {
     var aData = lists_admin_table.fnGetData(aPos[0]);
     var list   = aData[0];
 
-    window.location = '/mailman/ctl/listadmin/' + list;
+    window.location = '/mailman/ctl/listadmin/' + list + '#action';
 }
 
 function addHandlersListAdmin () {
-    var t0 = '<br/><input type="text" class="lc_members"';
+    var t0 = '<input type="text" class="lc_members"';
     var t1;
-    var t2 = ' placeholder="Enter a valid plain email address" />';
+    var t2 = ' placeholder="Enter a valid plain email address" /> <br/>';
     var d = 'lc_member_';
 
     console.log('Initializing handlers for the list admin template');
@@ -185,7 +185,7 @@ function addHandlersListAdmin () {
     });
 
     $("#lc_create_action").click(function() {
-	window.location = '/mailman/ctl/listadmin/new';
+	window.location = '/mailman/ctl/listadmin/new#action';
     });    
 }
 
