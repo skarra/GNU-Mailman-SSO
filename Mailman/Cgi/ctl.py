@@ -100,6 +100,7 @@ class Action(object):
         self._templ_dir = "../templates/en"
         self.kwargs     = {'auto_version' : auto_version,
                            'curr_user'    : self.curr_user,
+                           'hostname'     : Utils.get_domain(),
                            }
         self.more_headers = []
 

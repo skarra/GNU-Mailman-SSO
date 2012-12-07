@@ -10,7 +10,7 @@
 <div>
   <div class="inbl">
     <h2>
-      All lists on <span class="mono">lists.cleartrip.com</span>
+      All lists on <span class="mono">{{ hostname }}</span>
     </h2>
     Click on the list name to view details of list including currently
     subscribed members. <p/>
@@ -72,8 +72,8 @@
 	<td class="right"> <label> Mailing address: </label>  </td>
 	<td> 
 	  <div class="mono" id="vl_addr"> 
-	    <a href="mailto:{{ vl_ln }}@lists.cleartrip.com">
-	      {{ vl_ln }}@lists.cleartrip.com
+	    <a href="mailto:{{ vl_ln }}@{{ hostname }}">
+	      {{ vl_ln }}@{{ hostname }}
 	    </a>
 	  </div> 
 	</td>
