@@ -19,6 +19,11 @@
        width="100%">
       <thead>
 	<tr valign="top">
+	  <!-- FIXME: Adding or removing columns will impact the processing of
+               the leave/join action handler which just picks up a column
+               number instead of by column name. Remember to fix the method
+               subActions() in ctl.js if you have to edit the columns
+               structure in any way. -->
 	  <th> List Name </th>
 	  <th> Description </th>
 	  <th> Owners </th>

@@ -1,6 +1,6 @@
 //
 // Created       : Tue Nov 20 14:02:01 IST 2012
-// Last Modified : Fri Dec 07 18:41:09 IST 2012
+// Last Modified : Fri Dec 07 19:14:09 IST 2012
 //
 // Copyright (C) 2012, Sriram Karra <karra.etc@gmail.com>
 // All Rights Reserved
@@ -24,7 +24,7 @@ function subActions () {
     var aPos  = view_lists_table.fnGetPosition(this);
     var aData = view_lists_table.fnGetData(aPos[0]);
     var list   = aData[0];
-    var action = aData[2].toLowerCase();
+    var action = aData[4].toLowerCase();
 
     console.log('Will ' + action + ' from/to ' + list);
 
@@ -42,7 +42,7 @@ function subActions () {
 		   // just redirect for now, which will re-render the
 		   // page. FIXME: for better performance
 
-		   window.location = '/mailman/ctl/view/' + list;
+		   window.location = '/mailman/ctl/view';
 
 		   // if (action == 'subscribe') {
 		   //     news = 'Unsubscribe';
@@ -66,7 +66,7 @@ function viewActions () {
     var aData = view_lists_table.fnGetData(aPos[0]);
     var list   = aData[0];
 
-    window.location = '/mailman/ctl/view/' + list;
+    window.location = '/mailman/ctl/view/' + list + '#vl';
 }
 
 function addHandlersView () {
