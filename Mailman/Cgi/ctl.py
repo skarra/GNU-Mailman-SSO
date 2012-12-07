@@ -638,8 +638,9 @@ class Create(HTMLAction):
 
     def handler (self, parts):
         owned = []
+        cu = self.curr_user
         for mln, ml in self.all_mls.iteritems():
-            if self.curr_user in ml.owner:
+            if cu in ml.owner or cu in mm_cfg.SSO_ADMIN_AUTHIDS:
                 owned.append({'real_name' : ml.real_name,
                               'description' : Utils.websafe(ml.description),
                               'advertised' : ml.advertised,
