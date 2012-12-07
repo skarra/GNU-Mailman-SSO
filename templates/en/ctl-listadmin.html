@@ -49,26 +49,28 @@
         {% end %}
       </tbody>
     </table>
-    {% end %}    
+    {% end %}
+  </div>
 
-    <div style="display: block; position:relative">
-      <br/><hr/>
-      {% if can_create_lists(curr_user) %}
-        Click <label> <span id="lc_create_action" class="clickable">here</span>
-        </label> to create a new list<p/>
-      {% else %}
-        You are not authorized to create lists on this server. Contact the
-        site administrator for more information. <p/>
-      {% end %}
-    </div>
-
+  <div style="display: block; position:relative">
+    <hr/>
+    {% if can_create_lists(curr_user) %}
+      <label> 
+	<span id="lc_create_action" class="clickable green">Click here</span>
+      </label> to create a new list<p/>
+    {% else %}
+      You are not authorized to create lists on this server. Contact the
+      site administrator for more information. <p/>
+    {% end %}
   </div>
 
   {% if not list_to_edit and not lc_empty_form %}
     {% set cl="'hidden'" %}
   {% else %}
-    {% set cl="inbl" %}
+    {% set cl="" %}
   {% end %} <!-- if list_to_edit -->
+
+  <hr/>
 
   <div id="action" class= {{ cl }}>
 
@@ -83,122 +85,126 @@
     <input name="lc_submit" class="control_label" type="submit" 
            value={{ "Save" if list_to_edit else "Create" }} />
 
-  <p/>
-  <hr/>
-    
-  <table>
-    <tr valign="top">
-      <div class="form_data">
-      <td class="right vtalign"> 
-        <label>List Name <span class="reqd_field">*</span></label>
-      </td>
-      <td> <input type="text" id="lc_name" name="lc_name"
-                  {% if list_to_edit %}
-                  value={{ list_to_edit.real_name }}
-		  readonly="readonly"
-                  {% else %}
-                  placeholder="No spaces or special characters."
-                  {% end %}
-                  /> 
-      </td>
-      </div> <!-- .form_data -->
-    </tr>
+    <div class="col_parent">
+      <div class="half">
+	<table>
+	  <tr valign="top">
+	    <div class="form_data">
+	      <td class="right vtalign"> 
+		<label>List Name <span class="reqd_field">*</span></label>
+	      </td>
+	      <td> <input type="text" id="lc_name" name="lc_name"
+			  {% if list_to_edit %}
+			  value={{ list_to_edit.real_name }}
+			  readonly="readonly"
+			  {% else %}
+			  placeholder="No spaces or special characters."
+			  {% end %}
+			  />
+	      </td>
+	    </div> <!-- .form_data -->
+	  </tr>
 
-    <tr valign="top">
-      <div class="form_data">
-        <td class="right vtalign"> <label> Private List </label> </td>
-        {% if list_to_edit %}
-	  {% set check = None if list_to_edit.advertised else "checked" %}
-	{% else %}
-	  {% set check = None if mm_cfg.DEFAULT_LIST_ADVERTISED else "checked" %}
-	{% end %}
-        <td> 
-	  <input type="checkbox" id="lc_private" name="lc_private" 
-		 {% if check %}
-		 checked={{ check }}
-		 {% end %}
-		 />
-	</td>
-      </div> <!-- .form_data -->
-    </tr>
+	  <tr valign="top">
+	    <div class="form_data">
+              <td class="right vtalign"> <label> Private List </label> </td>
+              {% if list_to_edit %}
+	      {% set check = None if list_to_edit.advertised else "checked" %}
+	      {% else %}
+	      {% set check = None if mm_cfg.DEFAULT_LIST_ADVERTISED else "checked" %}
+	      {% end %}
+              <td>
+		<input type="checkbox" id="lc_private" name="lc_private" 
+		       {% if check %}
+		       checked={{ check }}
+		       {% end %}
+		       />
+	      </td>
+	    </div> <!-- .form_data -->
+	  </tr>
 
-    <tr valign="top">
-      <div class="form_data">
-        <td class="right vtalign"> 
-          <label>Brief Description
-            <span class="reqd_field">*</span>
-          </label> 
-        </td>
-        <td> <input type="text" id="lc_desc" name="lc_desc"
-                    {% if list_to_edit %}
-                    value=" {{ list_to_edit.description }} "
-                    {% end %}
-                    /> 
-        </td>
-      </div> <!-- .form_data -->
-    </tr>
+	  <tr valign="top">
+	    <div class="form_data">
+              <td class="right vtalign"> 
+		<label>Brief Description
+		  <span class="reqd_field">*</span>
+		</label> 
+              </td>
+              <td> <input type="text" id="lc_desc" name="lc_desc"
+			  {% if list_to_edit %}
+			  value=" {{ list_to_edit.description }} "
+			  {% end %}
+			  /> 
+              </td>
+	    </div> <!-- .form_data -->
+	  </tr>
   
-    <tr valign="top">
-      <div class="form_data">
-        <td class="right vtalign"> <label>Detailed Description</label> </td>
-        <td> 
-          <textarea id="lc_info" name="lc_info"> 
-            {% if list_to_edit %}
-              {{ list_to_edit.info }}
-            {% end %}
-          </textarea> 
-        </td>
-      </div> <!-- .form_data -->
-    </tr>
+	  <tr valign="top">
+	    <div class="form_data">
+              <td class="right vtalign"> <label>Detailed Description</label> </td>
+              <td> 
+		<textarea id="lc_info" name="lc_info"> 
+		  {% if list_to_edit %}
+		  {{ list_to_edit.info }}
+		  {% end %}
+		</textarea> 
+              </td>
+	    </div> <!-- .form_data -->
+	  </tr>
   
-    <tr valign="top">
-      <div class="form_data">
-        <td class="right vtalign"> <label>Welcome Message</label> </td>
-        <td> 
-          <textarea id="lc_welcome" name="lc_welcome"> 
-            {% if list_to_edit %}
-              {{ list_to_edit.welcome_msg }}
-            {% end %}
-          </textarea> 
-        </td>
-      </div> <!-- .form_data -->
-    </tr>
+	  <tr valign="top">
+	    <div class="form_data">
+              <td class="right vtalign"> <label>Welcome Message</label> </td>
+              <td> 
+		<textarea id="lc_welcome" name="lc_welcome"> 
+		  {% if list_to_edit %}
+		  {{ list_to_edit.welcome_msg }}
+		  {% end %}
+		</textarea> 
+              </td>
+	    </div> <!-- .form_data -->
+	  </tr>
+	</table>
+      </div> <!-- .half -->
   
-    <tr valign="top">
-      <div class="form_data">
-        <td class="right vtalign"> <label>List Members</label> </td>
-        <td>
-          <div id="lc_members">
-            {% if list_to_edit %}
-              {% set members = list_to_edit.getRegularMemberKeys() %}
-              {% for i, member in enumerate(members) %}
-                {% set tag = "lc_member_%d" % i %}
-                <input type="text" id={{ tag }} name={{ tag }}
-                       class="lc_members" value=" {{ member }} "/>
-		<br/>
-              {% end %}
+      <div class="half">
+	<table valign="top">
+	  <tr valign="top">
+	    <div class="form_data">
+              <td class="right vtalign"> <label>List Members</label> </td>
+              <td>
+		<div id="lc_members">
+		  {% if list_to_edit %}
+		    {% set members = list_to_edit.getRegularMemberKeys() %}
+		    {% for i, member in enumerate(members) %}
+                      {% set tag = "lc_member_%d" % i %}
+                      <input type="text" id={{ tag }} name={{ tag }}
+			     class="lc_members" value=" {{ member }} "/>
+		      <br/>
+		    {% end %} <!-- for ... enumerate -->
             
-            {% else %}
-              <input type="text" id="lc_member_0" name="lc_member_0"
-                     class="lc_members" value=" {{ curr_user }} "/>
-		<br/>
-            {% end %}
-          </div>
-          <label>
-            <a id="lc_member_add_new">Insert Another</a>
-          </label>
-        </td>
-      </div> <!-- .form_data -->
-    </tr>
-  </table>
+                  {% else %}
+		    <input type="text" id="lc_member_0" name="lc_member_0"
+			   class="lc_members" value=" {{ curr_user }} "/>
+		    <br/>
+		  {% end %}
+		</div> <!-- #lc_members -->
+		<label>
+		  <a id="lc_member_add_new">Insert Another</a>
+		</label>
+              </td>
+	    </div> <!-- .form_data -->
+	  </tr>
+	</table>
+      </div> <!-- .half -->
+    </div> <!-- .col_parent -->
 
- <p/>
-  <hr/>
-  
   <!--
-      <input name="lc_submit" class="control_label" type="submit"
-             value="Create"/>
-      -->
+    <p/>
+    <hr/>
+    <input name="lc_submit" class="control_label" type="submit"
+           value="Create"/>
+    -->
 
   </form>
   </div>

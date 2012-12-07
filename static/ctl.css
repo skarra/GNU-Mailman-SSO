@@ -295,6 +295,10 @@ ul, ol {
     color: red;
 }
 
+.green {
+    color: green;
+}
+
 qn {
     font-weight: bold;
     font-size: 110%;
