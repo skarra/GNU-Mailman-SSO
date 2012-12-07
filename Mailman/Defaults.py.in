@@ -1567,6 +1567,14 @@ SSO_DEFAULT_MSG_FOOTER = """_______________________________________________
 """
 SSO_DEFAULT_DIGEST_FOOTER = SSO_DEFAULT_MSG_FOOTER
 
+SSO_DEV = 0
+SSO_PDN = 1
+
+## If set to SSO_PDN this will cause the .js, .css, and images are
+## versioned. Look at the method auto_version in ctl.py. It is intended that
+## this variable value is overridden in mm_cfg.py in your deployment.
+SSO_ENVIRONMENT = SSO_DEV
+
 ## This is the cookie that the intranet Single Sign On sets that can be used
 ## to authenticate the user. This is the only authentication the user will
 ## have to perform that across Mailman. With edits.

@@ -43,19 +43,23 @@ i18n.set_language(mm_cfg.DEFAULT_SERVER_LANGUAGE)
 def auto_version (resource):
     """Intended to be invoked from inside tornado templates, given a resource
     names such as /static/ctl.js this will return something like
-    /static/ctl.201211010141551..css to version it. For this to work we need a
+    /static/ctl.v201211010141551.css to version it. For this to work we need a
     working url rewrite rule in apache or equivalent to strip out the
     timestamp.
 
     It is assumed that static resources that need to be versioned are
     available at the first level inside the PREFIX Directory"""
 
+    syslog('sso', 'SSO_ENVIRONMENT: %s' % mm_cfg.SSO_ENVIRONMENT)
+    if mm_cfg.SSO_ENVIRONMENT == mm_cfg.SSO_DEV:
+        return resource
+
     absname   = os.path.abspath(os.path.join(mm_cfg.VAR_PREFIX, resource[1:]))
     d         = datetime.fromtimestamp(os.path.getmtime(absname))
     timestamp = d.strftime("%Y%m%d%H%M%S")
 
     res = re.match('(.*\.)([a-zA-Z]*$)', resource)
-    return ''.join([res.group(1), timestamp, '.', res.group(2)])
+    return ''.join([res.group(1), 'v', timestamp, '.', res.group(2)])
 
 
 def get_curr_user ():
