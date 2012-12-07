@@ -378,7 +378,7 @@ class Create(HTMLAction):
         """Performs all error checks. Returns None is all's good. Otherwise
         returns a string with error message."""
 
-        if not self.owner in mm_cfg.SSO_LIST_CREATE_AUTHIDS:
+        if not can_create_lists(self.owner):
             return 'You are not authorized to creates lists on this server'
 
         if self.ln == '':
