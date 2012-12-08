@@ -80,12 +80,14 @@
 
 	<tr valign="top"> 
 	  <td class="right"> <label> List Owner(s): </label>  </td>
-	  <td> 
-	    <div class="mono" id="vl_owners_email"> 
-	      <a href="mailto:{{ vl_owners_email }}">
-		{{ vl_owners }}
-	      </a>
-	    </div>
+	  <td class="mono" id="vl_owners_email"> 
+	    <a href="mailto:{{ vl_owners_email }}">
+	      <ol>
+		{% for owner in vl_owners %}
+		<li> {{ owner }} </li>
+		{% end %}
+	      </ol>
+	    </a>
 	  </td>
 	</tr>
 
