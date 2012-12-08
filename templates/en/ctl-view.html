@@ -55,93 +55,97 @@
   </div>
 
 
-  <div id="vl">
-    <!-- data will be added here dynamically from our javascript code -->
-
+  <div id="vl" class="col_parent">
     {% if vl_ln %}
-    <br/>
-    <hr/>
-    <p/>
-    <table>
-      <tr valign="top"> 
-	<td class="right"> <h2> List Name: </h2>  </td>
-	<td> <h2 class="mono" id="vl_name"> {{ vl_ln }} </h2> </td>
-      </tr>
-      
-      <tr valign="top"> 
-	<td class="right"> <label> Mailing address: </label>  </td>
-	<td> 
-	  <div class="mono" id="vl_addr"> 
-	    <a href="mailto:{{ vl_ln }}@{{ hostname }}">
-	      {{ vl_ln }}@{{ hostname }}
-	    </a>
-	  </div> 
-	</td>
-      </tr>
+    <br/> <hr/> <p/>
+      <table>
+	<tr valign="top"> 
+	  <td class="right"> <h2> List Name: </h2>  </td>
+	  <td> <h2 class="mono" id="vl_name"> {{ vl_ln }} </h2> </td>
+	</tr>
+      </table>
 
-      <tr valign="top"> 
-	<td class="right"> <label> List Owner(s): </label>  </td>
-	<td> 
-	  <div class="mono" id="vl_owners_email"> 
-	    <a href="mailto:{{ vl_owners_email }}">
-	      {{ vl_owners }}
-	    </a>
-	  </div> 
-	</td>
-      </tr>
+    <div class="half">
+      <table>
+	<tr valign="top"> 
+	  <td class="right"> <label> Mailing address: </label>  </td>
+	  <td> 
+	    <div class="mono" id="vl_addr"> 
+	      <a href="mailto:{{ vl_ln }}@{{ hostname }}">
+		{{ vl_ln }}@{{ hostname }}
+	      </a>
+	    </div> 
+	  </td>
+	</tr>
 
-      <tr valign="top">
-	<td class="right"> <label> List Archives: <label> </td>
-	<td> 
-	  <div id="vl_archives"> 
-	    <a href="{{ vl_archives }}"> {{ vl_archives }} </a>
-	  </div>
-	</td>
-      </tr>
-      
-      <tr valign="top">
-	<td class="right"> <label>Brief Description: </label>  </td>
-	<td> 
-	  <div id="vl_bd">
-	    {% if vl_bd %}
+	<tr valign="top"> 
+	  <td class="right"> <label> List Owner(s): </label>  </td>
+	  <td> 
+	    <div class="mono" id="vl_owners_email"> 
+	      <a href="mailto:{{ vl_owners_email }}">
+		{{ vl_owners }}
+	      </a>
+	    </div>
+	  </td>
+	</tr>
+
+	<tr valign="top">
+	  <td class="right"> <label> List Archives: <label> </td>
+	  <td> 
+	    <div id="vl_archives"> 
+	      <a href="{{ vl_archives }}"> {{ vl_archives }} </a>
+	    </div>
+	  </td>
+	</tr>
+
+	<tr valign="top">
+	  <td class="right"> <label>Brief Description: </label>  </td>
+	  <td> 
+	    <div id="vl_bd">
+	      {% if vl_bd %}
 	      {{ vl_bd }} 
-	    {% else %}
+	      {% else %}
 	      Not Available
-	    {% end %}
-	  </div> 
-	</td>
-      </tr>
-      
-      <tr valign="top">
-	<td class="right"> <label>Detailed Description: </label> </td>
-	<td> 
-	  <div id="vl_dd"> 
-	    {% if vl_dd %}
-	      {{ vl_dd }} 
-	    {% else %}
-	      Not Available
-	    {% end %}
-	</div>   </td>
-      </tr>
-      
-      <tr valign="top">
-	<td class="right"> <label>Subscriber Count: </label> </td>
-	<td> {{ len(vl_roster) }} </td>
-      </tr>
+	      {% end %}
+	    </div> 
+	  </td>
+	</tr>
 
-      <tr valign="top">
-	<td class="right"> <label>Subscriber List: </label> </td>
-	<td> 
-	  <div id="vl_roster">
-            <ol>
-              {% for member in vl_roster %}
-              <li class="nopad"> {{ member }} </li>
-              {% end %}
-            </ol>
-	  </div>  <!-- #vl_roster -->
-	</td>
-      </tr>
-    </table>
+	<tr valign="top">
+	  <td class="right"> <label>Detailed Description: </label> </td>
+	  <td> 
+	    <div id="vl_dd"> 
+	      {% if vl_dd %}
+	      {{ vl_dd }} 
+	      {% else %}
+	      Not Available
+	      {% end %}
+	  </div>   </td>
+	</tr>
+      </table>
+    </div>
+
+    <div class="half">
+      <table>
+	<tr valign="top">
+	  <td class="right"> <label>Subscriber Count: </label> </td>
+	  <td> {{ len(vl_roster) }} </td>
+	</tr>
+
+	<tr valign="top">
+	  <td class="right"> <label>Subscriber List: </label> </td>
+	  <td> 
+	    <div id="vl_roster">
+              <ol>
+		{% for member in vl_roster %}
+		<li class="nopad"> {{ member }} </li>
+		{% end %}
+              </ol>
+	    </div>  <!-- #vl_roster -->
+	  </td>
+	</tr>
+      </table>
+    </div> <!-- .half -->
     {% end %}
   </div> <!-- #vl -->
 </div>

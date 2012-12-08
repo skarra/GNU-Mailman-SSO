@@ -262,23 +262,19 @@ input[type="submit"]:hover {
 }
 
 .col_parent {
-    display: table;
+    display: inline-block;
     width: 100%;
-    position: relative;
 }
 
 .third {
-    display: table-column;
     position: relative;
     float: left;
     width: 32%;
 }
 
 .half {
-    display: table-column;
     position: relative;
     float: left;
-    width: 47%;
     margin: 15px;
 }
 
