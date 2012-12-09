@@ -57,11 +57,20 @@
 
   <div id="vl" class="col_parent">
     {% if vl_ln %}
+    {% set admin = curr_user in vl_owners %}
     <br/> <hr/> <p/>
       <table>
 	<tr valign="top"> 
 	  <td class="right"> <h2> List Name: </h2>  </td>
-	  <td> <h2 class="mono" id="vl_name"> {{ vl_ln }} </h2> </td>
+	  <td> 
+	    {% if admin %}
+	    <a href="/mailman/ctl/listadmin/{{vl_ln}}#action">
+	      <h2 class="mono" id="vl_name"> {{ vl_ln }} </h2> 
+	    </a>
+	    {% else %}
+	      <h2 class="mono" id="vl_name"> {{ vl_ln }} </h2> 
+	    {% end %}
+	  </td>
 	</tr>
       </table>
 
@@ -75,19 +84,6 @@
 		{{ vl_ln }}@{{ hostname }}
 	      </a>
 	    </div> 
-	  </td>
-	</tr>
-
-	<tr valign="top"> 
-	  <td class="right"> <label> List Owner(s): </label>  </td>
-	  <td class="mono" id="vl_owners_email"> 
-	    <a href="mailto:{{ vl_owners_email }}">
-	      <ol>
-		{% for owner in vl_owners %}
-		<li class="nopad"> {{ owner }} </li>
-		{% end %}
-	      </ol>
-	    </a>
 	  </td>
 	</tr>
 
@@ -124,18 +120,18 @@
 	      {% end %}
 	  </div>   </td>
 	</tr>
+
+	<tr valign="top">
+	  <td class="right"> <label>Subscriber Count: </label> </td>
+	  <td> {{ len(vl_roster) }} </td>
+	</tr>
       </table>
     </div>
 
     <div class="half">
       <table>
 	<tr valign="top">
-	  <td class="right"> <label>Subscriber Count: </label> </td>
-	  <td> {{ len(vl_roster) }} </td>
-	</tr>
-
-	<tr valign="top">
-	  <td class="right"> <label>Subscriber List: </label> </td>
+	  <td class="right"> <label>List Members: </label> </td>
 	  <td> 
 	    <div id="vl_roster">
               <ol>
@@ -148,6 +144,22 @@
 	</tr>
       </table>
     </div> <!-- .half -->
+
+    <div class="half">
+      <table>
+	<tr valign="top">
+	  <td class="right"> <label> List Owner(s): </label>  </td>
+	  <td class="mono" id="vl_owners_email"> 
+	    <a href="mailto:{{ vl_owners_email }}">
+	      <ol>
+		{% for owner in vl_owners %}
+		<li class="nopad"> {{ owner }} </li>
+		{% end %}
+	      </ol>
+	    </a>
+	  </td>
+	</tr>
+
     {% end %}
   </div> <!-- #vl -->
 </div>
