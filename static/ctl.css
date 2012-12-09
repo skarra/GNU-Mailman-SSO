@@ -182,6 +182,10 @@ input[type="text"], input[type="email"] {
     height: 20px;
 }
 
+input[type="text"].lc_owners, input[type="text"].lc_members {
+    width: 160px;
+}
+
 textarea {
     height: 100px;
 }

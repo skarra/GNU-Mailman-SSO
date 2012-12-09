@@ -190,7 +190,38 @@
 		  {% end %}
 		</div> <!-- #lc_members -->
 		<label>
-		  <a id="lc_member_add_new">Insert Another</a>
+		  <a id="lc_member_add_new">Add Member</a>
+		</label>
+              </td>
+	    </div> <!-- .form_data -->
+	  </tr>
+	</table>
+      </div> <!-- .half -->
+
+      <div class="half">
+	<table valign="top">
+	  <tr valign="top">
+	    <div class="form_data">
+              <td class="right vtalign"> <label>List Owner(s)</label> </td>
+              <td>
+		<div id="lc_owners">
+		  {% if list_to_edit %}
+		    {% set owners = list_to_edit.owner %}
+		    {% for i, owner in enumerate(owners) %}
+                      {% set tag = "lc_owner_%d" % i %}
+                      <input type="text" id={{ tag }} name={{ tag }}
+			     class="lc_owners" value=" {{ owner }} "/>
+		      <br/>
+		    {% end %} <!-- for ... enumerate -->
+            
+                  {% else %}
+		    <input type="text" id="lc_owner_0" name="lc_owner_0"
+			   class="lc_owners" value=" {{ curr_user }} "/>
+		    <br/>
+		  {% end %}
+		</div> <!-- #lc_members -->
+		<label>
+		  <a id="lc_owner_add_new">Add Owner</a>
 		</label>
               </td>
 	    </div> <!-- .form_data -->

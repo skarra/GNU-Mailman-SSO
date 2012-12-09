@@ -300,7 +300,7 @@ class Create(HTMLAction):
         self._priv = self.cgival('lc_private') != ''
         self._safelin = Utils.websafe(self.ln)
         self._pw = mm_cfg.SSO_STOCK_ADMIN_PWD
-        self._owner = self.curr_user
+        self._owner = self.get_owners()
         self._hn = Utils.get_domain()
         self._eh = mm_cfg.VIRTUAL_HOSTS.get(self.hn, mm_cfg.DEFAULT_EMAIL_HOST)
         self._ml = None
@@ -379,8 +379,11 @@ class Create(HTMLAction):
         """Performs all error checks. Returns None is all's good. Otherwise
         returns a string with error message."""
 
-        if not can_create_lists(self.owner):
+        if not can_create_lists(self.curr_user):
             return 'You are not authorized to creates lists on this server'
+
+        if len(self.owner) <= 0:
+            return 'Cannot create list without a owner.'
 
         if self.ln == '':
             return 'You forgot to enter the list name'
@@ -416,7 +419,16 @@ class Create(HTMLAction):
             text, self.ml.preferred_language)
         msg.send(self.ml)
 
-    def add_members (self):
+    def get_owners (self):
+        ret = []
+        for key in self.cgidata.keys():
+            if re.match('^lc_owner', key):
+                fn, em = parseaddr(self.cgival(key).lower().strip())
+                ret.append(em)
+
+        return ret
+
+    def add_members (self, save=False):
         """Add any email addressses that are provided in the create form."""
 
         if self.welcome == '':
@@ -442,7 +454,8 @@ class Create(HTMLAction):
                     syslog('sso',
                            '%s already a member of listL %s' % (em, self.ln))
 
-        self.ml.Save()
+        if save:
+            self.ml.Save()
 
 
     def edit_members (self):
@@ -495,6 +508,17 @@ class Create(HTMLAction):
         ## Mailman.
 
 
+    def set_ml_owners (self, save=False):
+        """The caller should call Save() after this by default, unless
+        'save' is set to True."""
+
+        self.ml.owner = []
+        for owner in self.owner:
+            self.ml.owner.append(owner)
+
+        if save:
+           self.ml.Save() 
+
     def request_create (self):
         """Creates a list (name taken from the CGI form value called lc_name).
 
@@ -520,7 +544,7 @@ class Create(HTMLAction):
             oldmask = os.umask(002)
             try:
                 try:
-                    self.ml.Create(self.ln, self.owner, pwhex, self.langs,
+                    self.ml.Create(self.ln, self.owner[0], pwhex, self.langs,
                                    self.eh, urlhost=self.hn)
                 finally:
                     os.umask(oldmask)
@@ -551,6 +575,8 @@ class Create(HTMLAction):
             syslog('sso', 'Successfully created list: %s' % self.ln)
 
             self.add_members()
+            self.set_ml_owners()
+            self.ml.Save()
         finally:
             # Now be sure to unlock the list.  It's okay if we get a signal
             # here because essentially, the signal handler will do the same
@@ -589,6 +615,7 @@ class Create(HTMLAction):
 
             self.set_ml_defaults()
             self.edit_members()
+            self.set_ml_owners()
             self.ml.Save()
             syslog('sso', 'Successfully modified list config: %s' % self.ln)
         finally:
