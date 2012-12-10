@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <!--
 // Created       : Tue Nov 20 13:23:58 IST 2012
-// Last Modified : Fri Dec 07 23:12:54 IST 2012
+// Last Modified : Mon Dec 10 12:13:15 IST 2012
 //
 // Copyright (C) 2012, Sriram Karra <karra.etc@gmail.com>
 // All Rights Reserved
@@ -70,9 +70,15 @@
       Access Denied.
     </h2>
 
-    You are not authenticated to access this site. Use the Sign In link above
-    to login to your cleartrip.com employee account. After signing in, come
-    back to this page and refresh the page.
+    {% if logged_user %}
+    You are logged in as {{ logged_user }}, who is not authorized
+    {% else %}
+    You are not authenticated
+    {% end %}
+
+    to access this site. Use the Sign In link above to login to your
+    cleartrip.com employee account. After signing in, come back to this page
+    and refresh the page.
 
     {% else %}
     <div class="nav">

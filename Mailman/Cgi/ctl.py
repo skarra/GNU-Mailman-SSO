@@ -73,7 +73,7 @@ def can_create_lists (em):
 
     return False
 
-def get_curr_user ():
+def get_curr_user (raw=False):
     """Extracts the Cleartrip userid from the cookie. This cookie is set by
     any authenticated Cleartrip site - and as a result the site where this
     list server will be hosted."""
@@ -82,7 +82,10 @@ def get_curr_user ():
     cookie_key = mm_cfg.SSO_USER_COOKIE
     try:
         cookie = Cookie.SimpleCookie(os.environ["HTTP_COOKIE"])
-        _curr_user = mm_cfg.sso_user_cookie_hook(cookie[cookie_key].value)
+        if raw:
+            _curr_user = cookie[cookie_key].value
+        else:
+            _curr_user = mm_cfg.sso_user_cookie_hook(cookie[cookie_key].value)
     except Cookie.CookieError, e:
         _curr_user = "Cookie Error"
     except  KeyError, e:
@@ -100,6 +103,7 @@ class Action(object):
         self._templ_dir = "../templates/en"
         self.kwargs     = {'auto_version' : auto_version,
                            'curr_user'    : self.curr_user,
+                           'logged_user'  : get_curr_user(raw=True),
                            'hostname'     : Utils.get_domain(),
                            }
         self.more_headers = []
