@@ -247,6 +247,11 @@ input[type="submit"]:hover {
     letter-spacing: 1px;
 }
 
+.cindrella {
+    font-family: 'Cinzel Decorative', cursive;
+    font-size: 150%;
+}
+
 .ffr {
     position: relative;
     float: right;
@@ -324,4 +329,8 @@ li.nopad {
 
 .inbl {
     display: inline-block;
+}
+
+.vamid {
+    vertical-align: middle;
 }
