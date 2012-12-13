@@ -50,7 +50,6 @@ def auto_version (resource):
     It is assumed that static resources that need to be versioned are
     available at the first level inside the PREFIX Directory"""
 
-    syslog('sso', 'SSO_ENVIRONMENT: %s' % mm_cfg.SSO_ENVIRONMENT)
     if mm_cfg.SSO_ENVIRONMENT == mm_cfg.SSO_DEV:
         return resource
 
@@ -67,7 +66,6 @@ def can_create_lists (em):
     server. False if otherwise. By default this method merely checks if em is
     in the SSO_LIST_CREATE_AUTHIDS array."""
 
-    syslog('sso', 'can_create_lists: em = %s; authids = %s' % (em, mm_cfg.SSO_LIST_CREATE_AUTHIDS))
     if not mm_cfg.SSO_LIST_CREATE_AUTHIDS or em in mm_cfg.SSO_LIST_CREATE_AUTHIDS:
         return True
 
