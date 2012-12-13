@@ -285,6 +285,7 @@ input[type="submit"]:hover {
     position: relative;
     float: left;
     margin: 15px;
+    max-width: 33%;
 }
 
 ul, ol {
