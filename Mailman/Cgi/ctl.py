@@ -490,7 +490,10 @@ class Create(HTMLAction):
                        'request_edit: %s already a member of list %s' % (em,
                                                                          self.ln))
 
-    def set_ml_defaults (self):
+    def set_ml_params (self):
+        """Set some mailing list values from the form fields filled out by the
+        user."""
+
         self.ml.advertised = not self.priv
         self.ml.default_member_moderation = self.moderate
         self.ml.web_page_url = mm_cfg.DEFAULT_URL_PATTERN % self.hn
@@ -498,6 +501,12 @@ class Create(HTMLAction):
         self.ml.info = self.info
         self.ml.description = self.desc
         self.ml.welcome_msg = self.welcome
+
+    def set_ml_defaults (self):
+        """Set some of the static defaults for mailing list config
+        variables. This is largely intended to override any Mailman defaults
+        as we see fit for SSO use case. This is meant to be invoked at list
+        creation time only."""
 
         self.ml.send_welcome_msg = mm_cfg.SSO_DEFAULT_SEND_WELCOME_MSG
         self.ml.send_goodbye     = mm_cfg.SSO_DEFAULT_SEND_GOODBYE_MSG
@@ -572,6 +581,7 @@ class Create(HTMLAction):
             # virtual hosting settings and the request environment variables.
 
             self.set_ml_defaults()
+            self.set_ml_params()
             self.ml.Save()
 
             syslog('sso', 'Successfully created list: %s' % self.ln)
@@ -611,11 +621,7 @@ class Create(HTMLAction):
             signal.signal(signal.SIGTERM, self.sigterm_handler)
 
             self.ml.Lock()
-
-            # Initialize the host_name and web_page_url attributes, based on
-            # virtual hosting settings and the request environment variables.
-
-            self.set_ml_defaults()
+            self.set_ml_params()
             self.edit_members()
             self.set_ml_owners()
             self.ml.Save()
