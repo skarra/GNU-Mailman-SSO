@@ -1,6 +1,6 @@
 //
 // Created       : Tue Nov 20 14:02:01 IST 2012
-// Last Modified : Sun Dec 09 17:36:38 IST 2012
+// Last Modified : Thu Dec 13 11:36:44 IST 2012
 //
 // Copyright (C) 2012, Sriram Karra <karra.etc@gmail.com>
 // All Rights Reserved
@@ -173,15 +173,15 @@ function addHandlersListAdmin () {
 
     owner_cnt = $(".lc_owners").length;
 
-    t0 = '<input type="text" class="lc_owners"';
-    t1;
-    t2 = ' placeholder="Enter a valid plain email address" /> <br/>';
-    d = 'lc_owner_';
+    var ot0 = '<input type="text" class="lc_owners"';
+    var ot1;
+    var ot2 = ' placeholder="Enter a valid plain email address" /> <br/>';
+    var od = 'lc_owner_';
 
     $("#lc_owner_add_new").click(function() {
-	t1 = ' id="' + d + owner_cnt + '" name="' + d + owner_cnt + '"';
-	var t = t0 + t1 + t2
-	$("#lc_owners").append(t);
+	ot1 = ' id="' + od + owner_cnt + '" name="' + od + owner_cnt + '"';
+	var ot = ot0 + ot1 + ot2
+	$("#lc_owners").append(ot);
 	owner_cnt += 1;
     });
 
