@@ -288,6 +288,10 @@ input[type="submit"]:hover {
     max-width: 33%;
 }
 
+.minw400 {
+    min-width: 400px;
+}
+
 ul, ol {
     margin: 0;
     padding-left: 22px;
