@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+<title>Mailman SSO Customizations</title>
+
+<style type="text/css">
+  .container { margin: 10px; padding-left: 50px; padding-right: 50px;}
+  img { margin: 20px;}
+  li {  margin-top: 0.6em;  }
+  p {  margin-top: 0.6em; margin-bottom: 0.6em;  }
+</style>
+
+</head>
+
+<body>
+<div class="container">
+  <h1>Mailman Single SignOn (SSO) Customizations Summary</h1>
+
+  The <a href="https://github.com/skarra/GNU-Mailman-SSO">SSO extension</a> to
+  Mailman is meant for a Mailman installation for use within a closed group of
+  users. This sort of an installation can be used to host a company's internal
+  mailing lists used by employees, for e.g.
+
+  The extension is a single additional CGI script that provides a small set of
+  Mailman features.
+
+  <h2>Key differences between the stock GNU Mailman
+    and Mailman SSO? </h2>
+  <p/>
+
+  <ul>
+    <li> Built for a intranet-type set up with single signon
+    authentication </li>
+
+    <li> List subscribe and unsubscribe are single click
+      operations. </li>
+
+    <li> There are no passwords to remember. You will not receive
+      monthly reminders for each list you are subscribed to - because
+      Mailman SSO takes care of this behind the scenes </li>
+
+    <li> A lot of the GNU Mailman functionality is not
+      exported. Many of the features will never be exposed. Others will be
+      supported over time, for e.g. - private archives, subscribing in digest
+      mode, etc.</li>
+  </ul>
+  <p/>
+
+  This file contains screenshots of the four principal screens of the
+  customized web interface.
+
+  <h2> Home Screen:</h2> 
+
+  <p>
+    In our installation, access to the server is controlled through a single
+    sign on authentication, and a cookie value is verified to establish
+    credentials for access. The userid - value of the cookie - is displayed on
+    the top right corner.
+
+    <img src="00-main.png"/>
+  </p>
+
+  <h2> Subscriptions: </h2>
+
+  <p>
+    This is where all the advertised lists on the current server are
+    listed. Folks can join or leave with a single click, and the status is
+    updated instantly.
+
+    <img src="01-Subscriptions.png"/>
+  </p>
+
+  <h2> List Admin: </h2>
+
+  <p>
+    In this tab, one can create new lists, and manage lists that they own. The
+    following screenshot is the default view - where all the lists that have the
+    current user as the owner are listed in a table.
+
+    <img src="02-ListAdmin.png"/>  
+  </p>
+
+  <p>
+    The user can create a new list by clicking the green "Create new" link just
+    below the table, and a form is displayed, like so:
+
+    <img src="03-ListAdmin.png"/>  
+  </p>
+
+  <p>
+     Clicking the name of any of the lists will open up a form below the table,
+     and a small set of configuration variables can be edited.
+
+     <img src="04-ListAdmin.png"/> 
+  </p>
+
+</div>
+
+</body> </html>
