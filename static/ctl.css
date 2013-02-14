@@ -28,6 +28,39 @@ canvas, footer, #header, hgroup, menu, section, summary, time, audio, video {
 #header {
 }
 
+.notice {
+    text-align: center;
+    font-size: 105%;
+    line-height: 1.5;
+
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+
+    padding: 10px 20px;
+    margin: 20px 0px;
+
+    background-color: #fcfce1;
+    border-color: #fc0;
+    border-top-color: #fc0;
+    border-bottom-color: #fc0;
+}
+
+.status_success {
+    color: white;
+    border-top-color: green;
+    border-bottom-color: green;
+    background-color: green;
+    border-color: green;
+}
+
+.status_failed {
+    color: white;
+    border-top-color: red;
+    border-bottom-color: red;
+    background-color: red;
+    border-color: red;
+}
+
 body {
     padding: 5px 45px;
     font-size: 13px;

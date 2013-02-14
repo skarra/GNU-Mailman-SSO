@@ -12,8 +12,8 @@
 <!-- lc_* is a short form for list_create* -->
 
 {% if action_taken %}
-  <div class="notice">
-    List <strong> {{ create_ln }} </strong> {{ create_status }}
+  <div class="notice status_{{ create_status }} ">
+    List <strong> {{ create_ln }} </strong> {{ create_status_msg }}
   </div>
 {% end %}
 

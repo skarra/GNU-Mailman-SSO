@@ -653,9 +653,11 @@ class Create(HTMLAction):
         self.kwargs_add('action_taken', True)
         self.kwargs_add('create_ln', self.ln)
         if not error:
-            self.kwargs_add('create_status', 'Successfully Created')
+            self.kwargs_add('create_status', 'success')
+            self.kwargs_add('create_status_msg', 'Successfully Created')
         else:
-            self.kwargs_add('create_status',
+            self.kwargs_add('create_status', 'failed')
+            self.kwargs_add('create_status_msg',
                             'Creation failed (%s)' % error)
 
     def handler_edit (self, parts):
