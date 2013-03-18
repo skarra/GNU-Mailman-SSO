@@ -667,9 +667,11 @@ class Create(HTMLAction):
         self.kwargs_add('action_taken', True)
         self.kwargs_add('create_ln', self.ln)
         if not error:
-            self.kwargs_add('create_status', 'Successfully Edited')
+            self.kwargs_add('create_status', 'success')
+            self.kwargs_add('create_status_msg', 'Successfully Edited')
         else:
-            self.kwargs_add('create_status',
+            self.kwargs_add('create_status', 'failed')
+            self.kwargs_add('create_status_msg',
                             'Edit failed (%s)' % error)
         self.kwargs_add('list_to_edit', None)
         self.kwargs_add('lc_empty_form', False)
