@@ -1,6 +1,6 @@
 //
 // Created       : Tue Nov 20 14:02:01 IST 2012
-// Last Modified : Thu Dec 13 11:36:44 IST 2012
+// Last Modified : Fri May 03 23:39:30 IST 2013
 //
 // Copyright (C) 2012, Sriram Karra <karra.etc@gmail.com>
 // All Rights Reserved
@@ -24,7 +24,8 @@ function subActions () {
     var aPos  = view_lists_table.fnGetPosition(this);
     var aData = view_lists_table.fnGetData(aPos[0]);
     var list   = aData[0];
-    var action = aData[4].toLowerCase();
+    var action_res = aData[4].toLowerCase().match(/>(.*)</);
+    var action = action_res[1];
 
     console.log('Will ' + action + ' from/to ' + list);
 
@@ -79,7 +80,7 @@ function addHandlersView () {
             { "sWidth": "17%", "sClass": "center"}],
 
 	"fnDrawCallback" : function(oSettings) {
-	    $("#view_lists_table tbody td.clickable.subscribe").click(subActions);
+	    $("#view_lists_table tbody td.subscribe").click(subActions);
 	    $("#view_lists_table tbody td.clickable.view").click(viewActions);
 	}
     });
@@ -242,10 +243,16 @@ function highlightNavElem () {
 
     console.log('navElemId: ' + navElemId);
 
-    $(navElemId + " a").css({"font" : "verdana", "color" : "blue"});
+    $(navElemId).css({"background-color" : "#3c63a9"});
 }
 
 function addHandlers () {
+
+    $("#navHome").click(function() { window.location = '/mailman/ctl/home';});
+    $("#navView").click(function() { window.location = '/mailman/ctl/view';});
+    $("#navListAdmin").click(function() { window.location = '/mailman/ctl/listadmin';});
+    $("#navSiteAdmin").click(function() { window.location = '/mailman/ctl/siteadmin';});
+
     if (navElemId == "#navView") {
 	addHandlersView();
     } else if (navElemId == "#navListAdmin") {

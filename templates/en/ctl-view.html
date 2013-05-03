@@ -2,6 +2,7 @@
 
 {% block styles %}
 <link href="/static/demo_table.css" rel="stylesheet" type="text/css"/>
+<link href="/static/buttons.css" rel="stylesheet" type="text/css"/>
 {% end block %}
 
 {% block section_content %}
@@ -41,11 +42,11 @@
 	  <td> <a href="mailto:{{list['owner-email']}}"> {{ list['owners'] }}
 	    </a> </td>
 	  <td> {{ "Yes" if not list['advertised'] else "" }} </td>
-	  <td class="clickable subscribe">
+	  <td class="subscribe">
 	    {% if sub %}
-	    Leave
+	    <span class="clickable button orange"> Leave </span>
 	    {% else %}
-	    Join
+	    <span class="clickable button green"> Join </span>
 	    {% end %}
 	  </td>
 	</tr>

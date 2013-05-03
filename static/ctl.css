@@ -98,20 +98,22 @@ h2 {
 
 .navElem a {
     text-decoration: none;
-    margin-top: 0.5em; 
     vertical-align: baseline;
     background: transparent;
-    color: #888888;
+    color: white;
 }
 
 .navElem a:visited {
-    color: #888888;
+/*    color: #888888; */
 }
 
 .navElem a:hover {
-    color: blue;
-    cursor: pointer;
-    cursor: hand;
+    color: beige;
+}
+
+.navElem:hover {
+    color: beige;
+    background-color: #3c63a9;
 }
 
 .nav {
@@ -129,9 +131,38 @@ h2 {
     margin: 20px 0px;
 }
 
-.navElem{
-    padding-right: 20px;
+.navElem {
+    padding: 10px 20px;
     position: relative;
+    display: inline-block;
+
+    vertical-align: baseline;
+    background: transparent;
+    color: white;
+}
+
+.nav1 {
+    background-color: #395fa6;
+    background-repeat: repeat-x;
+    background-image: -khtml-gradient(linear,left top,left bottom,from(#5e8fcd),to(#395fa6));
+    background-image: -moz-linear-gradient(#5e8fcd,#395fa6);
+    background-image: -ms-linear-gradient(#5e8fcd,#395fa6);
+    background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#5e8fcd),color-stop(100%,#395fa6));
+    background-image: -webkit-linear-gradient(#5e8fcd,#395fa6);
+    background-image: -o-linear-gradient(#5e8fcd,#395fa6);
+    background-image: linear-gradient(#5e8fcd,#395fa6);
+    box-shadow: inset 0px 1px rgba(255,255,255,0.5);
+    -moz-box-shadow: inset 0px 1px rgba(255,255,255,0.5);
+    -webkit-box-shadow: inset 0px 1px rgba(255,255,255,0.5);
+    -o-box-shadow: inset 0px 1px rgba(255,255,255,0.5);
+    -ms-box-shadow: inset 0px 1px rgba(255,255,255,0.5);
+    color: #fff;
+    text-shadow: 0px -1px rgba(0,0,0,0.5);
+    padding: 0px;
+    margin: 20px 5px 20px 0px;
+
+    font-size: 105%;
+    line-height: 1.5;
 }
 
 #section {
