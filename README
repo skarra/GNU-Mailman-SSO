@@ -1,3 +1,14 @@
+This repository builds on GNU Mailman and adds SSO support. i.e. you can 
+set up many lists for your organisation and allow your users to view,
+subscribe / unsubscribe to them using a single password. At the present
+it is assumed that the authentication is done outside the system and 
+a specific cookie is set. The name of the cookie is configurable.
+
+You can see screenshots of a real deployment of this code here:
+http://skarra.github.io/GNU-Mailman-SSO/
+
+============ Original Mailman README follows: ==========
+
 Mailman - The GNU Mailing List Management System
 Copyright (C) 1998-2004 by the Free Software Foundation, Inc.
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA
